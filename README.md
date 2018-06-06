@@ -8,4 +8,6 @@ Jour 2 : écriture d'une version primitive du quadratic sieve. Il calcul assez b
 
 écriture d'une version légèrement amélioré, toujours le problème des 2 paramètres, ne renvoie que très rarement la solution...
 
-Jour 3 : Correction de la plupart des bugs, version beaucoup plus rapide (peut trouver un facteur d'un nombre ayant jusqu'à 13 chiffres). on a toujours le problème des 2 paramètres.
+Jour 3 : Correction de la plupart des bugs, version beaucoup plus rapide (présentée dans Tale of 2 sieve) (peut trouver un facteur d'un nombre ayant jusqu'à 13 chiffres). on a toujours le problème d'un paramètre, l'autre est calculé par l'algorithme.
+Ecriture de la méthode itérative, constat qu'il est plus rapide sur des entrées ayant jusqu'à 20 chiffres...
+
