@@ -12,7 +12,7 @@ premier = [i for i in range(2,n) if ZZ(i).is_prime()]
 
 #Sieve to compute prime factors of f(x) where f(x) = x**2-N%P for x in [I,J]
 def eratosthene(N,I,J,P):
-    L = [k*k-Nfor k in range(J-I+1)]
+    L = [k*k-N for k in range(I,J+1)]
     factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
     for k in range(len(P)):
         p = P[k]
@@ -24,7 +24,7 @@ def eratosthene(N,I,J,P):
                 i = I + p + (R[j]%p - I%p)
             while i<=J:
                 while L[i-I]%p==0:
-                    L[i-I] /= p
+                    L[i-I] = L[i-I]/p
                     factors[i-I][k] +=1
                 i += p
     L2 = [i+I for i in range(J-I+1) if L[i]==1]
@@ -50,16 +50,19 @@ def factor_base(N,B):
 
 def iterativ(x):
     r = int(sqrt(x))
+    n = int(log(x))
     i = 2
-    while i<=r:
+    while i<=min(r,n):
         if x%i==0 :
             return i
         i +=1
-    return "est premier"
+    return -1
 
-def quadratic_sieve(x,N=1000):
-    B = 2*int(exp(.5*log(2*sqrt(x))*log(log(2*sqrt(x)))))
-    print(B)
+def quadratic_sieve(x):
+    B = 2*int(exp(.5*sqrt(log(x)*log(log(x))))) +2
+    N = 16*int(exp(sqrt(ln(x)/ln(ln(x))))) * B
+
+    print(N,B)
     rac = int(x**0.5)
     V = []
     Q = []
@@ -71,26 +74,36 @@ def quadratic_sieve(x,N=1000):
     for i in range(len(fact)) :
         aux = fact[i]
         decomp = factors[i]
-        Q.append(aux*aux - N)
+        Q.append(aux*aux - x)
         racines.append(aux)
         V.append(decomp)
+#        print(aux, decomp, factor(fact[i]**2-x))
+
     M = MatrixSpace(GF(2),len(V),len(V[0]))
     A = M(V)
     V2 = ker(A)
     l,c = V2.dimensions()
+#    for i in range(len(Q)):
+#        print (Q[i]-racines[i]*racines[i])%x
     for j in range(l):
         u = 1
         v = 1
         for i in range(c):
-            if V2[j][i] :
-                u = u*racines[i]%x
+            if V2[j][i]==1 :
+                u = u*racines[i]*racines[i]
                 v = v*Q[i]
-        v = int(v**0.5)%x
+        v = int(sqrt(v))
+        u = int(sqrt(u))
+        print((u*u-v*v)%x)
         if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
             return gcd(u-v,x)
-    return "fail"
+    return -1
 
-
+def fact(x):
+    if iterativ(x)==-1:
+        return quadratic_sieve(x)
+    else :
+        return iterativ(x)
 
 
 
