@@ -17,3 +17,6 @@ Problème réglé (ouf), on peut monter jusqu'à 20 chiffres environ.
 Jour 4 : Présentations de d'algorithme du quadratic Sieve à L.Grémy.
 Présentation rapide de NFS
 Présentation sur les problèmes SVP (shortest vector problem) et CVP (closest vector problem) 
+Présentation sur les isogénies et courbes élipitques (trop compliqué pour être parfaitement comprise)
+apprentissage de quelques outils latex (nottement références).
+écriture du début du rapport.
