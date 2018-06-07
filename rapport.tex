@@ -1,0 +1,200 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{layout}
+\usepackage{dsfont}
+\usepackage[square,numbers,sort&compress]{natbib}
+\usepackage[francais]{babel}
+\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{listings}
+
+\title{Rapport de stage : Factorisation et calcul de logarithmes discrets : les algorithmes de cribles}
+\author{Oijid Nacim} 
+\date{Juin-Juillet 2018}
+
+%Macros
+\newtheorem{definition}{D\'efinition}
+
+\newcommand{\p}{$\mathbb{P}$} 
+\newcommand{\z}{$\mathbb{Z}$} 
+\newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
+
+
+
+\lstset{language=python}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+
+Du 3 Juin 2018 au 13 Juillet 2018, j?ai effectu\'e un stage au sein du LIP (situ\'e \`a Lyon), dans une \'equipe travaillant en cryptographie. Au cours de ce stage, j?ai pu m?int\'eresser \`a la factorisation de grands entiers, ce qui a une place tr\`es importante en cryptographie
+Plus largement, ce stage a \'et\'e l?opportunit\'e pour moi d?\^etre initi\'e \`a la recherche.
+Au-del\`a d?enrichir mes connaissances en, ce stage m?a permis de comprendre dans quelle mesure 
+
+
+Mon stage au sein de cette \'equipe a consist\'e essentiellement \`a l'\'etude, la compr\'ehension et l'\'ecriture du code d'algorithme de factorisation de grands entiers : Quadratic Sieve (QS) et Number Field Sieve (NFS).
+ 
+
+%Problématique et objectifs du rapport [Analyse sectorielle]
+
+%Ce stage a donc été une opportunité pour moi de percevoir comment une entreprise dans un secteur [décrire ici les caractéristiques du secteur : concurrence, évolution, historique, acteurs? et quelle stratégie l?entreprise a choisie dans ce secteur. Ainsi que l?apport du département et du poste occupé dans cette stratégie?]
+
+%L?élaboration de ce rapport a pour principale source les différents enseignements tirés de la pratique journalière des tâches auxquelles j?étais affecté. Enfin, les nombreux entretiens que j?ai pu avoir avec les employés des différents services de la société m?ont permis de donner une cohérence à ce rapport.
+
+
+
+
+%Annonce de plan 
+
+%En vue de rendre compte de manière fidèle et analytique des [?] mois passés au sein de la société [?], il apparaît logique de présenter à titre préalable l?environnement économique du stage, à savoir le secteur de [?] (I), puis d?envisager le cadre du stage : la société [?], tant d?un point de vue [?] (II). Enfin, il sera précisé les différentes missions et tâches que j?ai pu effectuer au sein du service [?], et les nombreux apports que j?ai pu en tirer (III).
+
+
+
+
+
+
+\section{Le Quadratic Sieve}
+
+\subsection{Pr\'esentation}
+Le premier algorithme \'ecrit durant le stage est celui du Quadratic Sieve.
+Cet algorithme, s'inspire du crible d'Eratosthene pour factoriser de grands entiers.
+
+\'Etant donn\'ee un entier $N=a*b$ avec $a\ne1$ et $b\ne1$ (on suppose $N$ non premier). On cherche \`a factoriser $N$ en l'\'ecrivant $N =u^2 - v^2$.
+Ceci est toujours possible car $a*b = (\frac{a+b}{2})^2 - (\frac{a-b}{2})^2$. On constate alors, qu'\'etant donn\'ee u, il faut que $u^2-N$ soit un carr\'ee pour avoir une telle d\'ecomposition.
+
+
+Pour se faire, on distingue 2 types de diviseurs : les petits, qui seront recherch\'es de mani\`ere exaustive( jusqu'\`a $log(N)$); et les plus gros, qui seront recherch\'es avec l'algorithme d\'ecrit plus loin.
+\begin{definition}[nombre friand]
+un entier est dit friand dans $P \subset$ \p si l'ensemble de ses diviseurs premiers sont dans P
+\end{definition}
+
+On modifie alors le crible d'Eratosthene pour cr\'eer une fonction $Erathostene(x,I,J,P)$ d\'ecrite dans \cite{ref3} qui prends en arguments 3 entiers $x$, $I$ et $J$ et une liste de nombre premier $P$ et qui renvoie les nombres $y$ tel que $y^2 - x$ soit compris entre $I$ et $J$ friands dans $P$ ainsi que leurs d\'ecomposition.
+
+Comment choisir $P$ une bonne base de facteur ? 
+Il en faut ni trop peu (sinon, il n'y a pas assez de nombre qui se d\'ecompose sur cette base) ni trop (sinon, il faut trop de vecteurs pour obtenir une relation de d\'ependance lin\'eaire). 
+Une \'etude math\'ematique \'evoqu\'ee dans \cite{ref2} nous indique qu'il suffit d'observer les nombres premiers plus petit qu'une certaine fonction 
+$L(N) = \lfloor exp( \sqrt{log(N)log(log(N))} ) \rfloor$ (fonction que l'on retrouve souvent en complexit\'e).
+D\`es lors, on ne s'int\'eresse qu'aux entiers $p$ tel que $N$ soit un carr\'ee modulo $p$. En effet, si $N$ n'est pas un carr\'ee modulo p, $u^2-N$ n'est jamais divisible par $p$. Donc p ne peut pas intervenir dans la d\'ecomposition de v. Donc peut \^etre retir\'e de $P$.
+
+
+D\`es lors, si l'on note $B = |P|$,  et qu'on s'int\'eresse uniquement \`a la valuations p-adique dans \ztz ; et si l'on trouve au moins $B+1$ valeurs $u_i$ telle que $v_i=y^2-x$ soit friand dans $P$(\`a l'aide du crible d'Eratosthene modifi\'ee), ces vecteurs seront li\'ees, et donc, on disposera d'une relation de d\'ependance lin\'eaire $(\nu_1, ... , \nu_B+1)$ de ces valuations dans \ztz, ce qui signifie que leur produit sera un carr\'ee.
+
+On aura alors : $u^2 = \Pi_{i=1}^{B+1} (u_i^2)^{\nu_i} \equiv v^2 = \Pi_{i=1}^{B+1} (v_i^2)^{\nu_i} [n]$ .
+Il reste alors \'`a v\'erifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'apr\`es un th\'eor\`eme qui est v\'erifi\'e en pratique mais dont je ne me suis pas plong\'e dans la preuve, cela est vrai avec une probabilit\'ee $\ge \frac{1}{2}$ ) 
+
+\subsection{Code Sage}
+
+\begin{lstlisting}
+def racine(N,p):
+    """ return the roots of f(x)%p =0 where f(x) = x**2 - N"""
+    t = N%p
+    for i in range(1,p):
+        if (i*i)%p==t:
+            return [i,p-i]
+    return []
+
+#list of prime numbers
+n = 10**6
+premier = [i for i in range(2,n) if ZZ(i).is_prime()]
+
+#Sieve to compute prime factors of f(x) where f(x) = x**2-N%P for x in [I,J]
+def eratosthene(N,I,J,P):
+    L = [k*k-N for k in range(I,J+1)]
+    factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
+    for k in range(len(P)):
+        p = P[k]
+        R = racine(N,p) #R {x,y} where (x**2-N)%p =0 and (y**2-N)%p=0
+        for j in range(len(R)):
+            if R[j]%p >= I%p :
+                i = I + (R[j]%p - I%p)
+            else :
+                i = I + p + (R[j]%p - I%p)
+            while i<=J:
+                while L[i-I]%p==0:
+                    L[i-I] = L[i-I]/p
+                    factors[i-I][k] +=1
+                i += p
+    L2 = [i+I for i in range(J-I+1) if L[i]==1]
+    factors2 = [factors[i] for i in range(J-I+1) if L[i]==1]
+    return L2,factors2 # L2[i]**2-N is a smooth number and factors[i] is his factorisation
+
+def ker(V):
+    """return a basis of ker V"""
+    A = matrix(V)
+    K = A.kernel().basis_matrix()
+    return  K
+
+def factor_base(N,B):
+    i = 1
+    res = [2]
+    while(premier[i]<B):
+        p = premier[i]
+        a = power_mod(N,(p-1)//2,p)
+        if a==1:
+            res.append(premier[i])
+        i +=1
+    return res
+
+def iterativ(x):
+    r = int(sqrt(x))
+    n = int(log(x))
+    i = 2
+    while i<=min(r,n):
+        if x%i==0 :
+            return i
+        i +=1
+    return -1
+
+def quadratic_sieve(x):
+    B = 2*int(exp(.5*sqrt(log(x)*log(log(x))))) +2
+    N = 16*int(exp(sqrt(ln(x)/ln(ln(x))))) * B
+    rac = int(x**0.5)
+    V = []
+    Q = []
+    racines = []
+    if(rac**2 == x):
+        return rac
+    P = factor_base(x,B)
+    fact, factors = eratosthene(x,rac,rac+N,P)
+    for i in range(len(fact)) :
+        aux = fact[i]
+        decomp = factors[i]
+        Q.append(aux*aux - x)
+        racines.append(aux)
+        V.append(decomp)
+    M = MatrixSpace(GF(2),len(V),len(V[0]))
+    A = M(V)
+    V2 = ker(A)
+    l,c = V2.dimensions()
+    for j in range(l):
+        u = 1
+        v = 1
+        for i in range(c):
+            if V2[j][i]==1 :
+                u = u*racines[i]*racines[i]
+                v = v*Q[i]
+        v = int(sqrt(v))
+        u = int(sqrt(u))
+        if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
+            return gcd(u-v,x)
+    return -1
+
+def fact(x):
+    if iterativ(x)==-1:
+        return quadratic_sieve(x)
+    else :
+        return iterativ(x)
+
+\end{lstlisting}
+
+\section{Bibliographie}
+\bibliographystyle{alpha}    
+\bibliography{bibliographie}
+
+\end{document}
