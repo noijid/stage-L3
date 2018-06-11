@@ -35,3 +35,4 @@ Semaine 2 : Prévision : comprendre RSA, et l'application de la factorisation en
 Jour 1 :
 Lecture d'articles sur RSA, et sur l'algorithme polynomial sur la factorisation d'entier sur ordinateur quantique.
 Lecture d'articles sur la factorisation d'entier et leur utilitée en crypto (comment attaquer RSA).
+Relecture d'articles sur NFS, quelques question reste sur la factorisation de nombres de Z[alpha]... passer par la norme me semble compliquer (la quantité de nombre de Z[alpha] de norme divisant la norme du nombre que l'on recherche peut être grand ?)
