@@ -30,4 +30,8 @@ Présentation sur un autre système de cryptographie basé sur les isogeny.
 Lecture de l'article de Pollard "Factoring with cubic integers" et d'une partie de la thèse "Améliorations de la multiplication et de la factorisation d’entier" d'Alexander Kruppa. début de compréhension de NFS.
 Relecture du début de rapport, quelques ajouts et correction de fautes d'orthographes.
 
-Semaine 2 : Prévision : comprendre RSA, et l'application de la factorisation en crypto
+Semaine 2 : Prévision : comprendre RSA, et l'application de la factorisation en crypto (lundi)
+
+Jour 1 :
+Lecture d'articles sur RSA, et sur l'algorithme polynomial sur la factorisation d'entier sur ordinateur quantique.
+Lecture d'articles sur la factorisation d'entier et leur utilitée en crypto (comment attaquer RSA).
