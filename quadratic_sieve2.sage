@@ -75,13 +75,13 @@ def eratosthene(N,I,J,P):
         for j in range(len(R)):
             rp = R[j]%p
             if rp >= ip :
-                i = I + (rp - ip)
+                i = (rp - ip)
             else :
-                i = I + p + (rp - ip)
-            while i<=J:
-                while L[i-I]%p==0:
-                    L[i-I] = L[i-I]/p
-                    factors[i-I][k] +=1
+                i = p + (rp - ip)
+            while i<=J-I:
+                while L[i]%p==0:
+                    L[i] = L[i]/p
+                    factors[i][k] +=1
                 i += p
     L2 = [i+I for i in range(J-I+1) if L[i]<P[-1]**2]
     cof = [L[i] for i in range(J-I+1) if L[i]<P[-1]**2]
@@ -145,7 +145,8 @@ def quadratic_sieve(x,B,N):
         return rac
     P = factor_base(x,B)
     racines, V, Q = eratosthene(x,rac+1,rac+N,P)
-    print len(V)
+    if V == [] :
+        return -1,0
     M = MatrixSpace(GF(2),len(V),len(V[0]))
     V = M(V)
     V = ker(V)
@@ -181,7 +182,7 @@ def F(n):
 
 
 
-def max(M):
+def maxi(M):
     a = 0
     b = 0
     n = len(M)
@@ -191,15 +192,19 @@ def max(M):
                 a = i
                 b = j
                 
-Res = [[[0for i in range(100)]for j in range(100)]for k in range(6)]
+def max(a,b):
+    if a>b:
+        return a
+    return b
+                
+Res = [[[0for i in range(19)]for j in range(19)]for k in range(6)]
 def tonight():
     for i in range(10,16):
-        for j in range(100):
-            for k in range(100):
+        for j in range(1,20):
+            for k in range(1,20):
                 n = previous_prime(10**i)*next_prime(10**i)
-                res, l, t = fact(n, j*100,k*5000)
+                res, l, t = fact(n, j*1000,k*40000)
                 if res != -1 :
-                    Res[i][j][k] = l/t
+                    Res[i-10][j][k] = l/max(t,1)
                 else:
-                    Res[i][j][k] = -1
-    print Res
+                    Res[i-10][j][k] = -1

@@ -17,9 +17,11 @@
 
 %Macros
 \newtheorem{definition}{Définition}
+\newtheorem{nota}{Notation}
 \newcommand{\p}{$\mathbb{P}$} 
-\newcommand{\z}{$\mathbb{Z}$} 
+\newcommand{\z}{\mathbb{Z}} 
 \newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
+\newcommand{\al}{\alpha} 
 
 
 
@@ -35,12 +37,12 @@
 
 Du 3 Juin 2018 au 13 Juillet 2018, j'ai effectué un stage au sein du LIP (situé à Lyon), dans une équipe travaillant en cryptographie. Au cours de ce stage, j'ai pu m'intéresser à la factorisation de grands entiers, ce qui a une place très importante en cryptographie
 Plus largement, ce stage a été l'opportunité pour moi d'être initié à la recherche.
-Au-delà d'enrichir mes connaissances en, ce stage m'a permis de comprendre dans quelle mesure 
+Au-delà d'enrichir mes connaissances en informatique théorique et de me forger une culture général sur des choses que l'on rencontre très fréquemment en informatique, comme le chiffrement RSA ou ce qu'est l'informatique quantique; ce stage m'a permis de développer mes compétences sous différents aspects : en programmation, en me faisant notamment manipuler un nouveau langage très utile dans le secteur de la recherche en informatique : Sage, qui est une surcouche de Python et en m'efforçant d'utiliser Bash dans un terminal, git et latex, afin de mieux développer mes capacités avec ces outils informatiques très utiles dans la vie de tous les jours.
 
 
-Mon stage au sein de cette équipe a consisté essentiellement à l'étude, la compréhension et l'écriture du code d'algorithme de factorisation de grands entiers : Quadratic Sieve (QS) et Number Field Sieve (NFS). Ces deux algorithmes ont pour but de factoriser un entier en l'écrivant comme différence de deux carrés. Ils ont un intérêt certains puisque QS a notamment permis de factoriser RSA-129, le 2 Avril 1994. Puis, le 10 Avril 1996, NFS a factorisé RSA-130, et a ainsi battu le record établis par QS 2 ans auparavant. Puis, en 1999, SNFS (une version modifiée de NFS) a factorisé un nombre à 211 chiffres : {10^{211}-1}/{9}. (selon \cite{ref6} )
+Mon stage au sein de cette équipe a consisté essentiellement à l'étude, la compréhension et l'écriture du code d'algorithme de factorisation de grands entiers : Quadratic Sieve (QS) et Number Field Sieve (NFS). Ces deux algorithmes ont pour but de factoriser un entier en cherchant des congruences. Ils ont un intérêt certains puisque QS a notamment permis de factoriser RSA-129, le 2 Avril 1994. Puis, le 10 Avril 1996, NFS a factorisé RSA-130, et a ainsi battu le record établis par QS 2 ans auparavant. Puis, en 1999, SNFS (une version modifiée de NFS) a factorisé un nombre à 211 chiffres : $(10^{211}-1)/{9}$. (selon \cite{ref6} ).
  
-
+J'ai également profité de ce stage pour découvrir d'autres aspects du monde de la recherche, comme en assistant à des "crypto-meeting", à des exposés sur des sujets divers comme  Shortest Vector Problem (SVP), à  une soutenances de stage de M2 sur les Simple Stochastic Games (SSG), ou en lisant des articles sur des sujets différents du mien, comme RSA, l'algorithme de Shor (en informatique quantique). 
 %Problématique et objectifs du rapport [Analyse sectorielle]
 
 %Ce stage a donc été une opportunité pour moi de percevoir comment une entreprise dans un secteur [décrire ici les caractéristiques du secteur : concurrence, évolution, historique, acteurs? et quelle stratégie l?entreprise a choisie dans ce secteur. Ainsi que l?apport du département et du poste occupé dans cette stratégie?]
@@ -59,145 +61,73 @@ Mon stage au sein de cette équipe a consisté essentiellement à l'étude, la compr
 
 
 
-\section{Le Quadratic Sieve}
+\section{Crible quadratique(Quadratic Sieve)}
 
 \subsection{Présentation}
+
+\subsubsection{Définitions et Notations}
+
+\begin{nota}[Nombre premiers]
+\p  Désignera l'ensemble des nombre premiers.
+\end{nota}
+
+\begin{definition}[Nombre friable]
+un entier est dit B-friable (resp friable dans $P \subset$ \p) si l'ensemble de ses diviseurs premiers sont inférieurs à B (resp dans P)
+\end{definition}
+
+\begin{definition}[Complexité L]
+On notera $L_N(x,y)$ avec $0 \le x \le 1$ la complexité tel que
+\begin{equation}
+L_N(x,y) = \lfloor \exp( y\log(N)^x \log(\log(N))^{1-x} ) \rfloor
+\end{equation}
+\end{definition}
+
+\begin{nota}
+On notera simplemant $L(x)$ pour $L_N(x,1)$
+\end{nota}
+
+\subsubsection{L'algorithme}
 Le premier algorithme écrit durant le stage est celui du Quadratic Sieve.
 Cet algorithme, s'inspire du crible d'Eratosthène pour factoriser de grands entiers.
 
 étant donnée un entier $N=a*b$ avec $a\ne1$ et $b\ne1$ (on suppose $N$ non premier). On cherche à factoriser $N$ en l'écrivant $N =u^2 - v^2 = (u-v)*(u+v)$.
-Ceci est toujours possible car $a*b = (\frac{a+b}{2})^2 - (\frac{a-b}{2})^2$. On constate alors, qu'étant donnée u, il faut que $u^2-N$ soit un carrée pour avoir une telle décomposition.
+Ceci est toujours possible car $a*b = (\frac{a+b}{2})^2 - (\frac{a-b}{2})^2$. On constate alors, qu'étant donnée $u$, il faut que $u^2-N$ soit un carrée pour avoir une telle décomposition.
 
 
-Pour se faire, on distingue 2 types de diviseurs : les petits, qui seront recherchés de manière exhaustive( jusqu'à $log(N)$); et les plus gros, qui seront recherchés avec l'algorithme décrit plus loin.
-\begin{definition}[nombre friable]
-\p Désignera toujours l'ensemble des nombre premiers.
-un entier est dit B-friable (resp friable dans $P \subset$ \p) si l'ensemble de ses diviseurs premiers sont inférieurs à B (resp dans P)
-\end{definition}
+Pour se faire, on distingue 2 types de diviseurs : les petits, qui seront recherchés de manière exhaustive( jusqu'à $\log(N)$); et les plus gros, qui seront recherchés avec l'algorithme décrit plus loin.
 
-On modifie alors le crible d'Eratosthène pour créer une fonction $Eratosthene (x,I,J,P)$ décrite dans \cite{ref3} qui prends en arguments 3 entiers $x$, $I$ et $J$ et une liste de nombre premier $P$ et qui renvoie les nombres $y$ tel que $y^2 - x$ soit compris entre $I$ et $J$ friables dans $P$ ainsi que leurs décomposition.
+
+On modifie alors le crible d'Eratosthène pour créer une fonction $Eratosthene (x,I,J,P)$ décrite dans \cite{ref3} qui prends en arguments 3 entiers $x$, $I$ et $J$ et une liste de nombre premier $P$ et qui renvoie les nombres $y$ compris entre $I$ et $J$, et tel que $y^2 - x$ soit friable dans $P$, ainsi que leurs décomposition, et la valeur de $y^2-x$. (En pratique, on peut autoriser un des facteurs en dehors de $P$, et c'est d'ailleurs comme ça que je l'ai implémenté pour gagner en temps de calcul, mais ce n'est pas obligatoire).
 
 Comment choisir $P$ une bonne base de facteur ? 
 Il en faut ni trop peu (sinon, il n'y a pas assez de nombre qui se décompose sur cette base) ni trop (sinon, il faut trop de vecteurs pour obtenir une relation de dépendance linéaire). 
 Une étude mathématique évoquée dans \cite{ref1} nous indique qu'il suffit d'observer les nombres premiers plus petit qu'une certaine fonction 
-$L(N) = \lfloor \exp( \sqrt{\log(N)\log(\log(N))} ) \rfloor$ (fonction que l'on retrouve souvent en complexité).
+$L(1/2) $ (fonction que l'on retrouve souvent en complexité).
 Dès lors, on ne s'intéresse qu'aux entiers $p$ tel que $N$ soit un carrée modulo $p$. En effet, si $N$ n'est pas un carrée modulo p, $u^2-N$ n'est jamais divisible par $p$. Donc p ne peut pas intervenir dans la décomposition de v. Donc peut être retiré de $P$.
 
 
-Dès lors, si l'on note $B = |P|$,  et qu'on s'intéresse uniquement à la valuations p-adique dans \ztz ; et si l'on trouve au moins $B+1$ valeurs $u_i$ telle que $v_i=y^2-x$ soit friable dans $P$(à l'aide du crible d'Eratosthène modifié), ces vecteurs seront liés, et donc, on disposera d'une relation de dépendance linéaire $(\nu_1, ... , \nu_B+1)$ de ces valuations dans \ztz, ce qui signifie que leur produit sera un carré.
+Dès lors, si l'on note $B = |P|$,  et qu'on s'intéresse uniquement à la valuations p-adique dans \ztz ; et si l'on trouve au moins $B+1$ valeurs $u_i$ telle que $v_i=y^2-x$ soit friable dans $P$(à l'aide du crible d'Eratosthène modifié), ces vecteurs seront liés, et donc, on disposera d'une relation de dépendance linéaire $(\nu_1, ... , \nu_{B+1})$ de ces valuations dans \ztz, ce qui signifie que leur produit sera un carré.
 
 On aura alors : $u^2 = \Pi_{i=1}^{B+1} (u_i^2)^{\nu_i} \equiv v^2 = \Pi_{i=1}^{B+1} (v_i^2)^{\nu_i} [n]$ .
-Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème qui est vérifié en pratique mais dont je ne me suis pas plongé dans la preuve, cela est vrai avec une probabilité $\ge \frac{1}{2}$ ) 
+Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème qui est vérifié en pratique mais dont je ne me suis pas plongé dans la preuve, cela est vrai avec une probabilité supérieure à $1/2$ ) 
 
 \subsection{Code Sage}
 
 \begin{lstlisting}
-def racine(N,p):
-    """ return the roots of f(x)%p =0 where f(x) = x**2 - N"""
-    t = N%p
-    for i in range(1,p):
-        if (i*i)%p==t:
-            return [i,p-i]
-    return []
 
-#list of prime numbers
-n = 10**6
-premier = [i for i in range(2,n) if ZZ(i).is_prime()]
-
-#Sieve to compute prime factors of f(x) where f(x) = x**2-N%P for x in [I,J]
-def eratosthene(N,I,J,P):
-    L = [k*k-N for k in range(I,J+1)]
-    factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
-    for k in range(len(P)):
-        p = P[k]
-        R = racine(N,p) #R {x,y} where (x**2-N)%p =0 and (y**2-N)%p=0
-        for j in range(len(R)):
-            if R[j]%p >= I%p :
-                i = I + (R[j]%p - I%p)
-            else :
-                i = I + p + (R[j]%p - I%p)
-            while i<=J:
-                while L[i-I]%p==0:
-                    L[i-I] = L[i-I]/p
-                    factors[i-I][k] +=1
-                i += p
-    L2 = [i+I for i in range(J-I+1) if L[i]==1]
-    factors2 = [factors[i] for i in range(J-I+1) if L[i]==1]
-    return L2,factors2 # L2[i]**2-N is a smooth number and factors[i] is his factorisation
-
-def ker(V):
-    """return a basis of ker V"""
-    A = matrix(V)
-    K = A.kernel().basis_matrix()
-    return  K
-
-def factor_base(N,B):
-    i = 1
-    res = [2]
-    while(premier[i]<B):
-        p = premier[i]
-        a = power_mod(N,(p-1)//2,p)
-        if a==1:
-            res.append(premier[i])
-        i +=1
-    return res
-
-def iterativ(x):
-    r = int(sqrt(x))
-    n = int(log(x))
-    i = 2
-    while i<=min(r,n):
-        if x%i==0 :
-            return i
-        i +=1
-    return -1
-
-def quadratic_sieve(x):
-    B = 2*int(exp(.5*sqrt(log(x)*log(log(x))))) +2
-    N = 16*int(exp(sqrt(ln(x)/ln(ln(x))))) * B
-    rac = int(x**0.5)
-    V = []
-    Q = []
-    racines = []
-    if(rac**2 == x):
-        return rac
-    P = factor_base(x,B)
-    fact, factors = eratosthene(x,rac,rac+N,P)
-    for i in range(len(fact)) :
-        aux = fact[i]
-        decomp = factors[i]
-        Q.append(aux*aux - x)
-        racines.append(aux)
-        V.append(decomp)
-    M = MatrixSpace(GF(2),len(V),len(V[0]))
-    A = M(V)
-    V2 = ker(A)
-    l,c = V2.dimensions()
-    for j in range(l):
-        u = 1
-        v = 1
-        for i in range(c):
-            if V2[j][i]==1 :
-                u = u*racines[i]*racines[i]
-                v = v*Q[i]
-        v = int(sqrt(v))
-        u = int(sqrt(u))
-        if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
-            return gcd(u-v,x)
-    return -1
-
-def fact(x):
-    if iterativ(x)==-1:
-        return quadratic_sieve(x)
-    else :
-        return iterativ(x)
 
 \end{lstlisting}
 
-\section{Number Field Sieve}
+\section{Crible algébrique(Number Field Sieve)}
 
-Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $N = x^3 +k$ avec $k$ petit.
+\subsection{Introduction}
 
+\subsubsection{Idée de l'algorithme}
+Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $N = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f_1$ et $f_2$ ayant une racine commune $m$ modulo $N$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f_1$ et $f_2$ où les nombres à factoriser sont plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/N\z$ où l'expression factorisé reste valable.
+
+\subsubsection{Pourquoi utiliser un tel algorithme}
+
+En pratique, l'algorithme de crible quadratique a permis de factoriser de nombreux grands entiers, mais la complexité en $L(1/2)$ l'empêche d'être suffisamment compétitif sur des trop grosses entiers. L'algorithme du crible algébrique quand à lui est plus rapide sur les gros entiers, avec une complexité en $L(1/3)$ (il est plus rapide que le crible quadratique à partir de 90 chiffres) et est le meilleur algorithme de l'informatique classique pour factoriser n'importe quel entier. (de meilleurs algorithmes existent pour des formes d'entier particuliers, et l'algorithme de Shor a une meilleure complexité théorique en informatique quantique).
 
 \bibliographystyle{alpha}    
 \bibliography{bibliographie}

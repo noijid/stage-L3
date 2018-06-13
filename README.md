@@ -30,7 +30,7 @@ Présentation sur un autre système de cryptographie basé sur les isogeny.
 Lecture de l'article de Pollard "Factoring with cubic integers" et d'une partie de la thèse "Améliorations de la multiplication et de la factorisation d’entier" d'Alexander Kruppa. début de compréhension de NFS.
 Relecture du début de rapport, quelques ajouts et correction de fautes d'orthographes.
 
-Semaine 2 : Prévision : comprendre RSA, et l'application de la factorisation en crypto (lundi)
+Semaine 2 :
 
 Jour 1 :
 Lecture d'articles sur RSA, et sur l'algorithme polynomial sur la factorisation d'entier sur ordinateur quantique.
@@ -54,3 +54,6 @@ temps de calcul : 273 secondes
 99999999999999999989"
 Il va falloir commencé à optimiser l'algorithme, gagner ne serait-ce qu'un facteur 2 en temps peut être intéressant.
 F7 quand a lui n'est pas encore factorié :/
+familiarisation avec Ubuntu et git (pour pouvoir pull mon repertoire sur requiem)
+Lancement d'un gros calcul sur requiem (qui durera surement au moins jusqu'à demain) pour savoir comment choisir de manière optimale B et N.
+Amélioration du rapport.
