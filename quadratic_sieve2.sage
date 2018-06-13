@@ -1,10 +1,62 @@
-def racine(N,p):
-    """ return the roots of f(x)%p =0 where f(x) = x**2 - N"""
-    t = N%p
-    for i in range(1,p):
-        if (i*i)%p==t:
-            return [i,p-i]
-    return []
+N = 13290059
+
+def racine(a, p):
+    """
+    Square root modulo prime number
+    Solve the equation
+        x^2 = a mod p
+    and return list of x solution
+    http://en.wikipedia.org/wiki/Tonelli-Shanks_algorithm
+    this code comes from the following website, but it's noth the most important part of the algorithm, si i just copy pasted it
+    https://codereview.stackexchange.com/questions/43210/tonelli-shanks-algorithm-implementation-of-prime-modular-square-root
+    """
+    a %= p
+
+    # Simple case
+    if a == 0:
+        return [0]
+    if p == 2:
+        return [a]
+    # Simple case
+
+    if p % 4 == 3:
+        x = power_mod(a, (p + 1)//4, p)
+        return [x, p-x]
+
+    # Factor p-1 on the form q * 2^s (with Q odd)
+    q, s = p - 1, 0
+
+    while q % 2 == 0:
+        s += 1
+        q //= 2
+    # Select a z which is a quadratic non resudue modulo p
+    z = 1
+    while power_mod(z, (p-1)//2,p) != p-1:
+        z += 1
+    c = power_mod(z, q, p)
+
+    # Search for a solution
+    x = power_mod(a, (q + 1)//2, p)
+
+    t = power_mod(a, q, p)
+
+    m = s
+    while t != 1:
+        # Find the lowest i such that t^(2^i) = 1
+        i, e = 0, 2
+        for i in xrange(1, m):
+            if power_mod(t, e, p) == 1:
+                break
+            e *= 2
+
+        # Update next value to iterate
+        b = power_mod(c, 2**(m - i - 1), p)
+        x = (x * b) % p
+        t = (t * b * b) % p
+        c = (b * b) % p
+        m = i
+
+    return [x, p-x]
 
 #list of prime numbers
 n = 10**6
@@ -27,9 +79,31 @@ def eratosthene(N,I,J,P):
                     L[i-I] = L[i-I]/p
                     factors[i-I][k] +=1
                 i += p
-    L2 = [i+I for i in range(J-I+1) if L[i]==1]
-    factors2 = [factors[i] for i in range(J-I+1) if L[i]==1]
-    return L2,factors2 # L2[i]**2-N is a smooth number and factors[i] is his factorisation
+    L2 = [i+I for i in range(J-I+1) if L[i]<P[-1]**2]
+    cof = [L[i] for i in range(J-I+1) if L[i]<P[-1]**2]
+    Q = [L2[i]*L2[i] - N for i in range(len(L2)) ]
+    factors2 = [factors[i] for i in range(J-I+1) if L[i]<P[-1]**2]
+    i = 0
+    while i< len(cof):
+        if cof[i] !=1:
+            for j in range(i+1,len(cof)):
+                if(cof[j] == cof[i]):
+                    cof.pop(j)
+                    a =L2.pop(j)
+                    cof[i]=1
+                    Q[i] = Q[i]*Q[j]
+                    Q.pop(j)
+
+                    L2[i] *=a
+                    factors2[i] = [factors2[i][k]+factors2[j][k] for k in range(len(P))]
+                    factors2.pop(j)
+                    break
+        i+=1
+    L2 = [L2[i] for i in range(len(cof)) if cof[i]==1]
+    Q = [Q[i] for i in range(len(cof)) if cof[i]==1]
+
+    factors2 = [factors2[i] for i in range(len(cof)) if cof[i]==1]
+    return L2,factors2, Q # L2[i]**2-N is a smooth number and factors[i] is his factorisation
 
 def ker(V):
     """return a basis of ker V"""
@@ -58,9 +132,7 @@ def iterativ(x):
         i +=1
     return -1
 
-def quadratic_sieve(x):
-    B = 2*int(exp(.5*sqrt(log(x)*log(log(x))))) +2
-    N = 16*int(exp(sqrt(ln(x)/ln(ln(x))))) * B
+def quadratic_sieve(x,B,N):
     rac = int(x**0.5)
     V = []
     Q = []
@@ -68,26 +140,22 @@ def quadratic_sieve(x):
     if(rac**2 == x):
         return rac
     P = factor_base(x,B)
-    fact, factors = eratosthene(x,rac,rac+N,P)
-    for i in range(len(fact)) :
-        aux = fact[i]
-        decomp = factors[i]
-        Q.append(aux*aux - x)
-        racines.append(aux)
-        V.append(decomp)
+    racines, V, Q = eratosthene(x,rac+1,rac+N,P)
     M = MatrixSpace(GF(2),len(V),len(V[0]))
     A = M(V)
     V2 = ker(A)
+
     l,c = V2.dimensions()
+    print(l)
     for j in range(l):
         u = 1
         v = 1
         for i in range(c):
             if V2[j][i]==1 :
-                u = u*racines[i]*racines[i]
+                u = u*racines[i]
                 v = v*Q[i]
+                
         v = int(sqrt(v))
-        u = int(sqrt(u))
         if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
             return gcd(u-v,x)
     return -1
