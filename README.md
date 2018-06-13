@@ -43,3 +43,14 @@ Réunion avec Laurent et Guillaume. Retour sur QS, éclaircissement de certains 
 L'algorithme doit être amélioré. (j'y ai consacré le reste de la journée) : maintenant le crible gère les entiers "presque smooth" (tous les facteurs plus petit que B sauf 1). 
 d'ailleurs N et B sont devenus des paramètres de l'algorithme. il est maintenant instantané ou presque sur F6 (avec B = 2000 et N = 100.000). Il a factorisé un nombre de 30 chiffres en environ 30 secondes (quadratic_sieve(next_prime(10**15)*previous_prime(10**15),10000, 300000) a renvoyé le bon résultat)
 Explications de certains points de NFS.
+
+Jour3 :
+Installation de la machine Requiem, cela me permets de faire des tests plus poussés.
+Ajout de quelques lignes, pour avoir des informations sur les calculs
+Premier nombre à 40 chiffres factorisé : 
+"fact(next_prime(10**20)*previous_prime(10**20),15000,1000000)
+nombre de vecteur du ker : 1
+temps de calcul : 273 secondes
+99999999999999999989"
+Il va falloir commencé à optimiser l'algorithme, gagner ne serait-ce qu'un facteur 2 en temps peut être intéressant.
+F7 quand a lui n'est pas encore factorié :/

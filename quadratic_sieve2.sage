@@ -1,3 +1,5 @@
+from time import time
+
 N = 13290059
 
 def racine(a, p):
@@ -68,12 +70,14 @@ def eratosthene(N,I,J,P):
     factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
     for k in range(len(P)):
         p = P[k]
+        ip = I%p
         R = racine(N,p) #R {x,y} where (x**2-N)%p =0 and (y**2-N)%p=0
         for j in range(len(R)):
-            if R[j]%p >= I%p :
-                i = I + (R[j]%p - I%p)
+            rp = R[j]%p
+            if rp >= ip :
+                i = I + (rp - ip)
             else :
-                i = I + p + (R[j]%p - I%p)
+                i = I + p + (rp - ip)
             while i<=J:
                 while L[i-I]%p==0:
                     L[i-I] = L[i-I]/p
@@ -141,27 +145,61 @@ def quadratic_sieve(x,B,N):
         return rac
     P = factor_base(x,B)
     racines, V, Q = eratosthene(x,rac+1,rac+N,P)
+    print len(V)
     M = MatrixSpace(GF(2),len(V),len(V[0]))
-    A = M(V)
-    V2 = ker(A)
+    V = M(V)
+    V = ker(V)
 
-    l,c = V2.dimensions()
-    print(l)
+    l,c = V.dimensions()
+    print "nombre de vecteur du ker :", l
     for j in range(l):
         u = 1
         v = 1
         for i in range(c):
-            if V2[j][i]==1 :
+            if V[j][i]==1 :
                 u = u*racines[i]
                 v = v*Q[i]
                 
         v = int(sqrt(v))
         if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
-            return gcd(u-v,x)
-    return -1
+            return gcd(u-v,x), l
+    return -1, l
 
 def fact(x,B,N):
+    t0 = int(time())
     if iterativ(x)==-1:
-        return quadratic_sieve(x,B,N)
+        res, l = quadratic_sieve(x,B,N)
+        t1 = int(time())
+        print "temps de calcul :", t1-t0, "secondes"
+        return res, l, t1-t0
     else :
         return iterativ(x)
+
+def F(n):
+    return 2**(2**n) +1
+
+
+
+
+def max(M):
+    a = 0
+    b = 0
+    n = len(M)
+    for i in range(n):
+        for j in range(n):
+            if M[i][j]>M[a][b]:
+                a = i
+                b = j
+                
+Res = [[[0for i in range(100)]for j in range(100)]for k in range(6)]
+def tonight():
+    for i in range(10,16):
+        for j in range(100):
+            for k in range(100):
+                n = previous_prime(10**i)*next_prime(10**i)
+                res, l, t = fact(n, j*100,k*5000)
+                if res != -1 :
+                    Res[i][j][k] = l/t
+                else:
+                    Res[i][j][k] = -1
+    print Res
