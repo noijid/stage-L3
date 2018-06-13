@@ -160,8 +160,8 @@ def quadratic_sieve(x,B,N):
             return gcd(u-v,x)
     return -1
 
-def fact(x):
+def fact(x,B,N):
     if iterativ(x)==-1:
-        return quadratic_sieve(x)
+        return quadratic_sieve(x,B,N)
     else :
         return iterativ(x)
