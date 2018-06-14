@@ -7,3 +7,4 @@ all:
 	rm rapport.log
 	rm rapport.aux
 	rm rapport.blg
+	open rapport.pdf
