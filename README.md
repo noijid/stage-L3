@@ -38,13 +38,13 @@ Lecture d'articles sur la factorisation d'entier et leur utilitée en crypto (co
 Relecture d'articles sur NFS, quelques question reste sur la factorisation de nombres de Z[alpha]... passer par la norme me semble compliquer (la quantité de nombre de Z[alpha] de norme divisant la norme du nombre que l'on recherche peut être grand ?)
 J'ai assisté à une soutenance de stage de M2 sur les jeux stochastiques simples.
 
-Jour2 :
+Jour 2 :
 Réunion avec Laurent et Guillaume. Retour sur QS, éclaircissement de certains points pas très clair à son sujet.
 L'algorithme doit être amélioré. (j'y ai consacré le reste de la journée) : maintenant le crible gère les entiers "presque smooth" (tous les facteurs plus petit que B sauf 1). 
 d'ailleurs N et B sont devenus des paramètres de l'algorithme. il est maintenant instantané ou presque sur F6 (avec B = 2000 et N = 100.000). Il a factorisé un nombre de 30 chiffres en environ 30 secondes (quadratic_sieve(next_prime(10**15)*previous_prime(10**15),10000, 300000) a renvoyé le bon résultat)
 Explications de certains points de NFS.
 
-Jour3 :
+Jour 3 :
 Installation de la machine Requiem, cela me permets de faire des tests plus poussés.
 Ajout de quelques lignes, pour avoir des informations sur les calculs
 Premier nombre à 40 chiffres factorisé : 
@@ -57,3 +57,10 @@ F7 quand a lui n'est pas encore factorié :/
 familiarisation avec Ubuntu et git (pour pouvoir pull mon repertoire sur requiem)
 Lancement d'un gros calcul sur requiem (qui durera surement au moins jusqu'à demain) pour savoir comment choisir de manière optimale B et N.
 Amélioration du rapport.
+
+Jour 4 :
+Relecture de a Joy of factoring (partie sur NFS), et de Factoring with cubic Integers.
+Lecture d'un diapo de Razvan Barbulescu sur NFS.
+Compréhension approximative de l'algorithme`.
+Rédaction d'une partie du rapport sur NFS
+Création du makefile pour compiler le latex et supprimer les fichiers auxiliaires crés lors de la compilations

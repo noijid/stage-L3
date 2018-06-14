@@ -118,16 +118,45 @@ Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème 
 
 \end{lstlisting}
 
+
+
+
+
+
+
+
 \section{Crible algébrique(Number Field Sieve)}
 
 \subsection{Introduction}
 
 \subsubsection{Idée de l'algorithme}
-Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $N = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f_1$ et $f_2$ ayant une racine commune $m$ modulo $N$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f_1$ et $f_2$ où les nombres à factoriser sont plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/N\z$ où l'expression factorisé reste valable.
+Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $n = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f_1$ et $f_2$ ayant une racine commune $m$ modulo $n$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f_1$ et $f_2$ où, comme pour le crible quadratique, le but est de trouver $x$ et $y$ tel que $x^2 \equiv y^2 [n]$, mais les nombres en question sont ici plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/n\z$ où les congruences reste valable.
+Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets selon \cite{ref7} mais ce n'est pas la partie traitée ici
 
 \subsubsection{Pourquoi utiliser un tel algorithme}
 
 En pratique, l'algorithme de crible quadratique a permis de factoriser de nombreux grands entiers, mais la complexité en $L(1/2)$ l'empêche d'être suffisamment compétitif sur des trop grosses entiers. L'algorithme du crible algébrique quand à lui est plus rapide sur les gros entiers, avec une complexité en $L(1/3)$ (il est plus rapide que le crible quadratique à partir de 90 chiffres) et est le meilleur algorithme de l'informatique classique pour factoriser n'importe quel entier. (de meilleurs algorithmes existent pour des formes d'entier particuliers, et l'algorithme de Shor a une meilleure complexité théorique en informatique quantique).
+
+
+\subsection{Présentation}
+
+\subsubsection{Definitions}
+
+\begin{definition}[Unité]
+Dans $\z[\al]$, muni de la norme multiplicative $N$, on appelle unité tout nombre $U$ tel que $N(U) = 1$.
+\end{definition}
+
+\begin{definition}[Nombre premier]
+Dans $\z[\al]$, on appelle nombre premier, tout nombre $p$ vérifiant $p = ab => N(a)=1$ ou $N(b)=1$
+\end{definition}
+
+
+\subsubsection{Recherche de congruence}
+On suppose dans cette partie, les polynômes $f_1$ et $f_2$ fixés et on note $m$ leur racine commune. On se munit de deux normes multiplicatives $N_1$ et $N_2$ sur les anneaux $\z[\al_1]$ et $\z[\al_2]$.  On se fixe alors deux bases de nombres premiers $FB_1$ et $FB_2$ dans $\z[\al_1]$ et $\z[\al_2]$, et on cherche des paires de nombres premiers entre eux $a_i$ et $b_i$ tel que $a_i + \al_1b_i$ et $a_i + \al_2b_i$ soient friables. On utilise alors un la même procédure que dans le crible quadratique, en utilisant les formes factorisées des nombre précédents pour obtenir une congruence de carrés. Enfin, une fois qu'on a nos 2 carrés, en les injectants dans $\z/n\z$, en remplaçant $\al_1$ et $\al_2$ par $m$ on obtient la congruence souhaitée.
+
+
+\subsubsection{Choix des polynômes}
+Dans le cas général, on cherche deux polynômes, $f_1$ et $f_2$, ayant des coefficients pas trop grands, afin de ne pas avoir des normes trop grandes dans $\z[\al_1]$ et $\z[\al_2]$. En effet, plus les normes des nombres seront petites, plus il sera probable qu'ils soient friables, et donc cela permets d'accélérer la recherche de congruences.
 
 \bibliographystyle{alpha}    
 \bibliography{bibliographie}
