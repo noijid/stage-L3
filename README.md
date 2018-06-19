@@ -64,3 +64,32 @@ Lecture d'un diapo de Razvan Barbulescu sur NFS.
 Compréhension approximative de l'algorithme`.
 Rédaction d'une partie du rapport sur NFS
 Création du makefile pour compiler le latex et supprimer les fichiers auxiliaires crés lors de la compilations
+
+Jour 5 :
+Entetiens avec Laurent pour parler me présenter small NFS,
+lecture et compéhension (approximative) du code fourni
+Début du code du lattice sieve. des problèmes étranges apparaissent.
+
+Semaine 3 :
+Jour 0 (dimanche) : 
+Réception du code envoyé par Laurent, test, erreur dû à une assert dans le main, même en retirant le lattice sieve. J'essaie de comprendre, surement un problème du à notre modifiaction de l'entrée. Sinon, les sorties des lattice sieve et linear sieve sont différentes, à voir avec Laurent.
+
+Jour 1 : 
+Réunion avec Laurent et Guillaume, présentation de l'amélioration du quadratic sieve et discussion autour de small NFS.
+preuve de la complexité de l'algorithme par Guillaume.
+retour au code de NFS, correction du problème avec la lattice sieve. Un problème apparaît pour la seconde entrée au niveau de l'algèbre linéaire. Je tente de comprendre pourquoi (pas pratique les 13 minutes de calculs avant d'arriver à cette erreur)
+lecture d'articles sur NFS pour moins voir FK comme une boite noire.
+
+Jour 2 : 
+Un problème dans le code de NFS a été signalé à Laurent hier, le problème n'étant pas réglé, il m'a invité à rédiger une la partie concernant NFS de mon rapport
+Laurent m'a retroué un code fonctionnel. J'y ajoute le lattice sieve que j'ai écrit et la nouvelle version de reduce q_lattice
+je regarde combien on peut gagner en temps dessus. Résultats peu probant, le temps gagné est ridicule (quelques seconde sur plusieurs minutes de calculs). Des modifications du code ont été effectués pour comprendre pourquoi.
+Il semblerait qu'avec l'entrée utilisé pour les calculs, le lattice sieve ne gagne pas car en moyenne le réseau est encore trop dense, même pour les plus grosses valeurs de p. Donc la différence entre lattice et linear sieve ne se voient pas.
+PS : Un calcul de fond sur le crible quadratique a montré que mon algorithme pouvait factoriser le 6e nombre de Fermat avec seulement une facto base de taille 1000. pas besoins de monter à 15.000 comme je l'avais fais précédement.
+
+
+
+
+
+
+

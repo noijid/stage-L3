@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
+\usepackage{graphicx}
 \usepackage{layout}
 \usepackage{dsfont}
 \usepackage[square,numbers,sort&compress]{natbib}
@@ -22,6 +23,11 @@
 \newcommand{\z}{\mathbb{Z}} 
 \newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
 \newcommand{\al}{\alpha} 
+\newcommand{\ere}{\textsuperscript{ère} }
+\newcommand{\er}{\textsuperscript{er} }
+\newcommand{\eme}{\textsuperscript{ème} }
+
+
 
 
 
@@ -32,7 +38,7 @@
 
 \maketitle
 
-\section{Introduction}
+\abstract
 
 
 Du 3 Juin 2018 au 13 Juillet 2018, j'ai effectué un stage au sein du LIP (situé à Lyon), dans une équipe travaillant en cryptographie. Au cours de ce stage, j'ai pu m'intéresser à la factorisation de grands entiers, ce qui a une place très importante en cryptographie
@@ -68,7 +74,7 @@ J'ai également profité de ce stage pour découvrir d'autres aspects du monde de l
 \subsubsection{Définitions et Notations}
 
 \begin{nota}[Nombre premiers]
-\p  Désignera l'ensemble des nombre premiers.
+\p \hspace{0.5 cm}Désignera l'ensemble des nombre premiers.
 \end{nota}
 
 \begin{definition}[Nombre friable]
@@ -78,7 +84,7 @@ un entier est dit B-friable (resp friable dans $P \subset$ \p) si l'ensemble de 
 \begin{definition}[Complexité L]
 On notera $L_N(x,y)$ avec $0 \le x \le 1$ la complexité tel que
 \begin{equation}
-L_N(x,y) = \lfloor \exp( y\log(N)^x \log(\log(N))^{1-x} ) \rfloor
+L_N(x,y) = \lfloor \exp( (y + o(1))\log(N)^x \log(\log(N))^{1-x} ) \rfloor
 \end{equation}
 \end{definition}
 
@@ -129,9 +135,22 @@ Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème 
 
 \subsection{Introduction}
 
+\subsubsection{Lien entre le crible quadratique et le crible algébrique}
+
+L'idée principale du crible algébrique est que la recherche de carrés différents dans $\z$ et dans $\z/N\z$ permets d'obtenir une relation de la forme $u^2 \equiv v^2 [N]$. En effet, on considère des couples $(x_i,y_i)$ tel que $x_i^2 \equiv y_i [N]$ puis on cherche une combinaison des $y_i$ de manière à obtenir un carrée.
+Ainsi, de deux factorisations, une dans $\z$ et une dans $\z/N\z$ on obtient une factorisation de $N$
+
+Le crible algébrique pousse cette idée plus loin, en considérant, des polynômes de degré supérieurs sortes de réduire les tailles des éléments à factoriser. Ainsi, au lieu de factoriser dans $\z/N\z$ et dans $\z$, on factorise dans $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1$ et $\al_2$ des racines des polynômes à considérer. de sortes à factoriser des nombres plus petits. pour aboutir à la même congruence.
+
 \subsubsection{Idée de l'algorithme}
-Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $n = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f_1$ et $f_2$ ayant une racine commune $m$ modulo $n$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f_1$ et $f_2$ où, comme pour le crible quadratique, le but est de trouver $x$ et $y$ tel que $x^2 \equiv y^2 [n]$, mais les nombres en question sont ici plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/n\z$ où les congruences reste valable.
-Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets selon \cite{ref7} mais ce n'est pas la partie traitée ici
+Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $n = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f$ et $g$ ayant une racine commune $m$ modulo $n$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f$ et $g$ où, comme pour le crible quadratique, le but est de trouver $x$ et $y$ tel que $x^2 \equiv y^2 [n]$, mais les nombres en question sont ici plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/n\z$ où les congruences reste valable.
+Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets selon \cite{ref7} (et la thèse de Laurent Grémy) mais ce n'est pas la partie traitée ici
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.4]{NFS1.png}
+\caption{ Idée générale de NFS }
+ \end{figure}
 
 \subsubsection{Pourquoi utiliser un tel algorithme}
 
@@ -150,16 +169,37 @@ Dans $\z[\al]$, muni de la norme multiplicative $N$, on appelle unité tout nombr
 Dans $\z[\al]$, on appelle nombre premier, tout nombre $p$ vérifiant $p = ab => N(a)=1$ ou $N(b)=1$
 \end{definition}
 
+\subsubsection{Choix des polynômes}
+Dans le cas général, on cherche deux polynômes, $f$ et $g$, irréductibles et premiers entre eux dans $\mathbb{Q}[X]$, ayant des coefficients pas trop grands, afin de ne pas avoir des normes trop grandes pour les $a - \al b$ dans $\z[\al_1]$ et $\z[\al_2]$. En effet, plus les normes des nombres seront petites, plus il sera probable qu'ils soient friables, et donc cela permets d'accélérer la recherche de congruences. On choisit donc, en général, un certain entier  $m$, puis on prends pour les coefficients de $f$, ceux de l'écriture de $n$ en base $m$, et on prends $g(x) = x - m$ de sortes que $f$ et $g$ et m comme racine commune modulo $n$. On ne veut pas non plus $f$ de degré trop grand, donc on ne prends pas m trop petit. Selon \cite{ref6}, on fixe $d = 4$ ou $5$ (plus généralement, $d = \log(N)^{1/3}$ est la valeur optimale de l'analyse théorique de la complexité) le degré de $f$ et on prends $m$ proche de $n^{\frac{1}{d+1}}$.
 
 \subsubsection{Recherche de congruence}
-On suppose dans cette partie, les polynômes $f_1$ et $f_2$ fixés et on note $m$ leur racine commune. On se munit de deux normes multiplicatives $N_1$ et $N_2$ sur les anneaux $\z[\al_1]$ et $\z[\al_2]$.  On se fixe alors deux bases de nombres premiers $FB_1$ et $FB_2$ dans $\z[\al_1]$ et $\z[\al_2]$, et on cherche des paires de nombres premiers entre eux $a_i$ et $b_i$ tel que $a_i - \al_1b_i$ et $a_i - \al_2b_i$ soient friables. Cette étape est très importante dans l'algorithme du crible algébrique car cette recherche de $a_i, b_i$ peut être faite de manière simultanée (en programmation parallèle) et permets donc de gagner du temps de calcul, si le besoins en est. 
-On utilise alors un la même procédure que dans le crible quadratique, en utilisant les formes factorisées des nombre précédents pour obtenir une congruence de carrés. Enfin, une fois qu'on a nos 2 carrés, en les injectants dans $\z/n\z$, en remplaçant $\al_1$ et $\al_2$ par $m$ on obtient la congruence souhaitée.
+On suppose dans cette partie, les polynômes $f$ et $g$ fixés et on note $m$ leur racine commune. On se munit de deux normes multiplicatives $N_1$ et $N_2$ sur les anneaux $\z[\al_1]$ et $\z[\al_2]$.  On se fixe alors deux bases de nombres premiers $FB_1$ et $FB_2$ dans $\z[\al_1]$ et $\z[\al_2]$, et on cherche des paires de nombres premiers entre eux $a_i$ et $b_i$ tel que $a_i - \al_1b_i$ et $a_i - \al_2b_i$ soient friables. En raison du grand nombre de divisions à tester, on impose d'abord un spécial-Q, c'est à dire, qu'on recherche seulement les paires $(a_i,b_i)$ tel que $a_i-\al b_i$ soit divisible par Q Pour se faire, on divise la base en deux sous partie : "la base de crible" noté $ffb$ (free factor base), et la "grande variation en nombre premier" noté $B$. On impose alors d'être divisible par un spécial-Q entre $ffb$ et $B$, puis que les $(a_i - \al b_i)/Q$ soit fbb-friable.
+Cela nous fait perdre certaines relation, mais accélère énormément le calcul.
+Cela permets de ne chercher à factoriser que des entiers déjà un peu plus petit (de la taille plus petit de $\log(Q)$ ). On peut alors cribler de façon linéaire : en parcourant toutes les valeurs de $b$ pour chaque valeur de $a$ et donc, on peut effectuer parallèlement les calculs à $a$ fixé. On gagne ainsi un peu de temps de calcul . En pratique, cette étape s'effectue en calcul distribué mais en utilisant des algorithmes de cribles plus efficaces que celui linéaire, ce qui sera développé dans la sous-partie suivante : l'algorithme de Franke-Kleinjung.
+En pratique, on recherche au moins $ \#(FB_1) + \#(FB_2) + 1 $ relations pour être sur d'avoir une décomposition en carré.
 
+\subsubsection{Le crible par maille}
 
-\subsubsection{Choix des polynômes}
-Dans le cas général, on cherche deux polynômes, $f_1$ et $f_2$, ayant des coefficients pas trop grands, afin de ne pas avoir des normes trop grandes pour les $a - \al b$ dans $\z[\al_1]$ et $\z[\al_2]$. En effet, plus les normes des nombres seront petites, plus il sera probable qu'ils soient friables, et donc cela permets d'accélérer la recherche de congruences. On choisit donc, en général, un certain entier  $m$, puis on prends pour les coefficients de $f_1$, ceux de l'écriture de $n$ en base $m$, et on prends $f_2(x) = x - m$ de sortes que $f_1$ et $f_2$ et m comme racine commune modulo $n$. On ne veut pas non plus $f_1$ de degré trop grand, donc on ne prends pas m trop petit. Selon \cite{ref6}, on fixe $d = 4$ ou $5$ le degré de $f_1$ et on prends $m$ proche de $n^{\frac{1}{d+1}}$. On obtient de plus $f_1$ unitaire, ce qui facilite le calcul des normes.
+Le crible linéaire, bien qu'intuitif (car proche de celui d'Eratosthène), a le défaut de devoir explorer chaque valeur de b, et est donc efficace seulement sur les réseaux denses. En effet, pour certains idéaux (quand $p$, le facteur recherché est proche de $I$ la longueur de l'intervalle de recherche sur $a$), le réseau est beaucoup moins dense, et il est possible que seulement quelques entiers soient divisible par $p$ (un nombre beaucoup plus petit que b). L'algorithme de Franke-Kleinjung propose alors une solution, en trouvant une base de 2 vecteurs, $u$ et $v$ tel que, pour passer d'un point au suivant (en triant les points par ordonnée), il suffit d'ajouter $u$, $v$, ou $u+v$ au premier. (cet algorithme permettant de trouver $u$ et $v$ fait appel à des résultats d'algèbre de $(\z)^n$ et de calcul de pgcd mais n'a pas été étudié au cours de ce stage)
+Dès lors, le crible devient beaucoup  plus efficace, puisqu'il suffit de trouver un point (en général 0), puis la complexité pour trouver tous les autres devient linéaire en le nombre de point à trouver et non en la taille de l'intervalle de recherche.
 
+Résultat observé. J'ai lancé la 1\ere version de small NFS fourni par Laurent, en utilisant soit seulement le crible linéaire, soit le crible linéaire sur les petits nombre premiers, et le crible par maille sur les gros nombre premiers (ceux dépassant la taille de l'intervalle de recherche). On ne gagne presque pas de temps. une analyse du code, et des résultats retournés montre que cela est dû à un réseau trop dense même pour les plus grosses valeurs des nombres premiers $p$ considérés.
 
+\subsubsection{Algèbre linéaire}
+On utilise alors un la même procédure que dans le crible quadratique, en utilisant les formes factorisées des nombre précédents pour obtenir une congruence de carrés.  Pour ce faire, on décompose les valeurs de $a_i-\al b_i$ en facteur premier dans $\z[\al_1]$ et $\z[\al_2]$. On s'intéresse aux exposants modulo $2$ des facteurs premiers apparaissant dans les décompositions. Et, à l'aide d'outils offerts par Sage, on calcul le noyau de la matrice composé de ces exposants pour trouvé une combinaison de $a_i- \al b_i$qui est à la fois un carré pour $i = 1$ et pour $i = 2$.
+
+\subsubsection{Factorisation}
+Une fois qu'on a obtenu le noyau de la matrice, on injectre $\z[\al_1]$ et $\z[\al_2]$, dans $\z/N\z$ avec $\al_i -> m$. La congruence est alors conservée car m est racine commune de $f$ et $g$. L'algèbre linéaire nous dit alors que les 2 factorisations obtenus dans les 2 anneaux respectifs sont bien congru l'un à l'autre modulo N, et on obtient alors une relation de la forme $u^2 \equiv v^2 [N]$, ce qui donne une factorisation de N avec une probabilité supérieure à 1/2 (encore une fois, ce résultat n'a pas été étudié).
+
+\subsubsection{Utilisation habituelle de NFS}
+En règle général, le crible algébrique est utilisé avec l'un des deux polynômes (disons $g$) de degré 1. En particulier, on prend souvent $g(x) = x- m$. Dès lors, on qualifie d'algébrique la partie de l'algorithme portant sur $f$ et de rationnelle celle portant sur $g$ (car $\z[\al_2] = \z$). Le spécial-Q est alors imposé que dans la partie algébrique de NFS (car c'est la partie la plus dur à factoriser).
+
+\section{Small NFS : objet principal de mon stage}
+
+\abstract
+L'objectif principal de mon stage était de partir de la version de Laurent Small NFS, et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
+L'avantage, et que cela équilibre les complexités de recherche de relation entre les différents côtés de l'équation. Le désavantage, est que le fait d'imposer 2 spécial-Q, et donc 2 diviseurs, diminue le nombre de relation que l'on va trouver.
+Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q
 
 \bibliographystyle{alpha}    
 \bibliography{bibliographie}
