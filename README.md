@@ -87,6 +87,13 @@ je regarde combien on peut gagner en temps dessus. Résultats peu probant, le te
 Il semblerait qu'avec l'entrée utilisé pour les calculs, le lattice sieve ne gagne pas car en moyenne le réseau est encore trop dense, même pour les plus grosses valeurs de p. Donc la différence entre lattice et linear sieve ne se voient pas.
 PS : Un calcul de fond sur le crible quadratique a montré que mon algorithme pouvait factoriser le 6e nombre de Fermat avec seulement une facto base de taille 1000. pas besoins de monter à 15.000 comme je l'avais fais précédement.
 
+Jour 3 :
+Légère amélioration du rapport,
+on poursuit les tests pour comparer les vitesses des lattice sieve et linear sieve. On gagne 4 minutes sur un calcul d'une heure avec certains paramètres... 
+J'essayais de comprendre pourquoi l'algorithme gagnait si peu, en ajoutant des étapes pour mesurer le temps, le temps de crible est négligeable devant le temps total de recherche de relation. C'est ici que l'algo doit être optimisé (une vingtaine de secondes contre 9 minutes).
+En pratique, le crible par maille fait gagner un facteur 1,3 sur le temps de crible total.
+Les étapes les plus longues de l'algorithme sont les précalculs des normes et la cofactorisation.
+J'y ai jeté un oeil, mais puisque je commence demain le travail avec plusieurs spécial Q, je ne me sens pas de reprendre intégralement cette partie du code.
 
 
 
