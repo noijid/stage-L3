@@ -95,7 +95,13 @@ En pratique, le crible par maille fait gagner un facteur 1,3 sur le temps de cri
 Les étapes les plus longues de l'algorithme sont les précalculs des normes et la cofactorisation.
 J'y ai jeté un oeil, mais puisque je commence demain le travail avec plusieurs spécial Q, je ne me sens pas de reprendre intégralement cette partie du code.
 
-
+Jour 4 :
+Relecture du code de Laurent, particulièrement de la partie sur les spécials Q en prévision de la réunion avec lui de l'après midi
+Entretiens avec Laurent, pour préparer le travail sur le multi spécial Q.
+Commentaire des résultats précédents et des temps d'execution de l'algorithme : temps de cofactorisation trop long. J'essaie avec un thresh plus petit (B^2 au lieu de B^3), on obtient toujours assez de relation pour continuer et le temps de cofactorisation devient équivalent à celui de crible. Cela semble être un bon compromis.
+Travail sur le théorème des restes chinois. But : résoudre a0+a1h0 = 0 mod q0 et a0 + a1h1 = 0 mod q1.
+si q0 = q1, trivial : si h0 =h1 une seule equation, on sait faire, sinon il faut a1 = 0 mod q.
+si q0 != q1, on a (a0 a1) = c0 b0 + c1 b1 avec b0 = (q0q1, 0) et b1 = (-h1u1q1 - h0u0q0, 1) avec u0, u1 les coefficitents de bezout tel que q0u0+q1u1 = 1.
 
 
 
