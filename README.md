@@ -103,6 +103,8 @@ Travail sur le théorème des restes chinois. But : résoudre a0+a1h0 = 0 mod q0
 si q0 = q1, trivial : si h0 =h1 une seule equation, on sait faire, sinon il faut a1 = 0 mod q.
 si q0 != q1, on a (a0 a1) = c0 b0 + c1 b1 avec b0 = (q0q1, 0) et b1 = (-h1u1q1 - h0u0q0, 1) avec u0, u1 les coefficitents de bezout tel que q0u0+q1u1 = 1.
 
-
-
+Jour 5 :
+On commence à implémenter la solution trouvée hier. (on ne traite pas les cas gênant q0 = q1)
+J'ai refais quelques tests à la main de la solution trouvé hier, elle semble être la bonne.
+Suite à un problème de typage, je ne peux pas faire de test informatiquement pour l'instant. J'essaierai de corriger ça et de faire ça la semaine prochaine.
 
