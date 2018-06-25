@@ -70,6 +70,9 @@ Entetiens avec Laurent pour parler me présenter small NFS,
 lecture et compéhension (approximative) du code fourni
 Début du code du lattice sieve. des problèmes étranges apparaissent.
 
+
+
+
 Semaine 3 :
 Jour 0 (dimanche) : 
 Réception du code envoyé par Laurent, test, erreur dû à une assert dans le main, même en retirant le lattice sieve. J'essaie de comprendre, surement un problème du à notre modifiaction de l'entrée. Sinon, les sorties des lattice sieve et linear sieve sont différentes, à voir avec Laurent.
@@ -108,3 +111,10 @@ On commence à implémenter la solution trouvée hier. (on ne traite pas les cas
 J'ai refais quelques tests à la main de la solution trouvé hier, elle semble être la bonne.
 Suite à un problème de typage, je ne peux pas faire de test informatiquement pour l'instant. J'essaierai de corriger ça et de faire ça la semaine prochaine.
 
+
+
+
+semaine 4:
+
+Jour 1 :
+Relecture du code avec la thèse de Laurent, modifiations pour le code s'execute. On trouve sur des entrées plus ou moins aléatoire (au niveau du choix des spécial Q) anormalement beaucoup de relations que l'on doit jetter, je ne sais toujours pas si l'implémentation est correcte ou pas
