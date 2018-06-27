@@ -198,7 +198,14 @@ En règle général, le crible algébrique est utilisé avec l'un des deux polynômes 
 \abstract
 L'objectif principal de mon stage était de partir de la version de Laurent Small NFS (idée qu'il a développé dans sa thèse), et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
 L'avantage, et que cela équilibre les complexités de recherche de relation entre les différents côtés de l'équation. Le désavantage, est que le fait d'imposer 2 spécial-Q, et donc 2 diviseurs, diminue le nombre de relation que l'on va trouver.
-Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q
+Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q.
+
+\subsection{Résultats}
+
+\subsubsection{Conséquences sur les doublons}
+
+Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in \p$ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+
 
 \bibliographystyle{alpha}    
 \bibliography{bibliographie}

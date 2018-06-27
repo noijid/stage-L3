@@ -118,3 +118,8 @@ semaine 4:
 
 Jour 1 :
 Relecture du code avec la thèse de Laurent, modifiations pour le code s'execute. On trouve sur des entrées plus ou moins aléatoire (au niveau du choix des spécial Q) anormalement beaucoup de relations que l'on doit jetter, je ne sais toujours pas si l'implémentation est correcte ou pas
+
+Jour 2 : Réunion avec Laurent et Guillaume, présentation du travail de la semaine précédente et de ce qui reste à faire.
+Enfin, une version fonctionnelle de la recherche de relation pour le multi spécial Q. Il manque plus que le choix des spécial Q et on sera bon. (Je pensais pas réussir à débugger aussi vite) Modification du programme pour gérer les 2 spécials-Q ( qrange1 et 2) 
+
+Jour 3 : On essaie la version enfin fonctionnelle du multi spécial Q. Les résultats étaient étrange mais après 2 heures de tests, je réalise que j'ia inversé les côtés 1, et 2. Les résultats sont beaucoup plus intéressants. Je commence à les noter dans le rapport.
