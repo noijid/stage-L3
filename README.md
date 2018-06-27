@@ -1,6 +1,6 @@
 # stage-L3
 
-Semaine 1 :
+# Semaine 1 :
 
 Jour 1 : 
 Présentation du travail à effectuer, et d'articles de recherches.
@@ -30,7 +30,7 @@ Présentation sur un autre système de cryptographie basé sur les isogeny.
 Lecture de l'article de Pollard "Factoring with cubic integers" et d'une partie de la thèse "Améliorations de la multiplication et de la factorisation d’entier" d'Alexander Kruppa. début de compréhension de NFS.
 Relecture du début de rapport, quelques ajouts et correction de fautes d'orthographes.
 
-Semaine 2 :
+# Semaine 2 :
 
 Jour 1 :
 Lecture d'articles sur RSA, et sur l'algorithme polynomial sur la factorisation d'entier sur ordinateur quantique.
@@ -73,7 +73,7 @@ Début du code du lattice sieve. des problèmes étranges apparaissent.
 
 
 
-Semaine 3 :
+# Semaine 3 :
 Jour 0 (dimanche) : 
 Réception du code envoyé par Laurent, test, erreur dû à une assert dans le main, même en retirant le lattice sieve. J'essaie de comprendre, surement un problème du à notre modifiaction de l'entrée. Sinon, les sorties des lattice sieve et linear sieve sont différentes, à voir avec Laurent.
 
@@ -114,7 +114,7 @@ Suite à un problème de typage, je ne peux pas faire de test informatiquement p
 
 
 
-semaine 4:
+# semaine 4:
 
 Jour 1 :
 Relecture du code avec la thèse de Laurent, modifiations pour le code s'execute. On trouve sur des entrées plus ou moins aléatoire (au niveau du choix des spécial Q) anormalement beaucoup de relations que l'on doit jetter, je ne sais toujours pas si l'implémentation est correcte ou pas
@@ -123,3 +123,25 @@ Jour 2 : Réunion avec Laurent et Guillaume, présentation du travail de la sema
 Enfin, une version fonctionnelle de la recherche de relation pour le multi spécial Q. Il manque plus que le choix des spécial Q et on sera bon. (Je pensais pas réussir à débugger aussi vite) Modification du programme pour gérer les 2 spécials-Q ( qrange1 et 2) 
 
 Jour 3 : On essaie la version enfin fonctionnelle du multi spécial Q. Les résultats étaient étrange mais après 2 heures de tests, je réalise que j'ia inversé les côtés 1, et 2. Les résultats sont beaucoup plus intéressants. Je commence à les noter dans le rapport.
+
+Comparaison smallnfs et multi special Q
+load("smallnfs.sage")
+temps 1 : 1.4514529705
+temps recherche : 1439.10991096
+nombre d'utilisation du lattice sieve 67276
+(3802, 564, 624)
+pour l'instant on s'arrete la
+premier test :  5 116 660  deuxieme test :  5533
+nombre de reseau observe :  421
+
+
+load("nfs_multi_specialQ.sage")
+temps 1 : 1.39958906174
+temps recherche : 1030.35505009
+nombre d'utilisation du lattice sieve 35872
+(980, 564, 624)
+pour l'instant on s'arrete la
+premier test :  315 254  deuxieme test :  2764
+nombre de reseau observe :  225
+
+J'en ai parlé à Laurent, le reste de ma semaine servira à décrire plus proprement ces algorithmes. J'ai donc téléchargé un  package latex pour les algos en français. Je commit ces nouveaux fichiers.

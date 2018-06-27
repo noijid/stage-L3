@@ -11,6 +11,9 @@
 \usepackage[francais]{babel}
 \usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
 \usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{algorithmique}
 
 \title{Rapport de stage : Factorisation et calcul de logarithmes discrets : les algorithmes de cribles}
 \author{Oijid Nacim} 
@@ -32,7 +35,6 @@
 
 
 
-\lstset{language=python}
 
 \begin{document}
 
@@ -118,6 +120,9 @@ Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème 
 
 \subsection{Code Sage}
 
+\lstset{language=python}
+
+
 \begin{lstlisting}
 
 
@@ -193,6 +198,7 @@ Une fois qu'on a obtenu le noyau de la matrice, on injectre $\z[\al_1]$ et $\z[\
 \subsubsection{Utilisation habituelle de NFS}
 En règle général, le crible algébrique est utilisé avec l'un des deux polynômes (disons $g$) de degré 1. En particulier, on prend souvent $g(x) = x- m$. Dès lors, on qualifie d'algébrique la partie de l'algorithme portant sur $f$ et de rationnelle celle portant sur $g$ (car $\z[\al_2] = \z$). Le spécial-Q est alors imposé que dans la partie algébrique de NFS (car c'est la partie la plus dur à factoriser).
 
+
 \section{Small NFS : objet principal de mon stage}
 
 \abstract
@@ -200,11 +206,20 @@ L'objectif principal de mon stage était de partir de la version de Laurent Small
 L'avantage, et que cela équilibre les complexités de recherche de relation entre les différents côtés de l'équation. Le désavantage, est que le fait d'imposer 2 spécial-Q, et donc 2 diviseurs, diminue le nombre de relation que l'on va trouver.
 Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q.
 
+\subsection {Algorithme}
+
+\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}
+\POUR k \PREND 0 \JUSQUE n \FAIRE
+s \PREND s+k\\
+\RETURN{s}
+\end{pseudocode}\\
+
 \subsection{Résultats}
 
 \subsubsection{Conséquences sur les doublons}
 
-Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in \p$ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ \p tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+
 
 
 \bibliographystyle{alpha}    

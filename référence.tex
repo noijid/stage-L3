@@ -1,0 +1,247 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{algorithmique}
+\usepackage{hyperref}
+\begin{document}
+\begin{center}
+\begin{Large}
+\textbf{Paquet Algorithmique}
+\end{Large}
+\end{center}
+\section{Présentation}
+Le paquet \textit{algorithmique} est une traduction française de \textit{pseudocode}, un paquet LaTeX créé par D.L. Kreher et D.R. Stinson pour taper une thèse sur l'algorithmique en 1999. Ce paquet est essentiellement un environnement qu'on appelle en insérant \begin{verbatim}\usepackage{algorithmique}\end{verbatim}
+ dans le préambule (avant le début du document) et en insérant le pseudocode entre 
+\begin{verbatim}\begin{pseudocode}\end{verbatim}
+et
+\begin{verbatim}\end{pseudocode}\end{verbatim}
+Le paquet utilise lui-même deux autres paquets, qui sont donc nécessaires pour l'utiliser:
+\begin{enumerate}
+\item Le paquet \textit{fancybox}, qui sert à placer les algorithmes dans des boîtes;
+\item Le paquet \textit{ifthen}, qui permet d'avoir des réglages dépendant de la boîte choisie. Le pseudolangage utilisé est inspiré du langage de programmation \textit{Pascal}, spécialisé dans l'algorithmique.
+\end{enumerate}
+\section{Exemples}
+\subsection{Boucle "pour"}
+Pour calculer $\displaystyle\sum_{k=1}^n \; k$ avec la méthode algorithmique, on utilise le fait que la suite $\displaystyle\sum_{k=1}^n \; k$ est récurrente, avec $\displaystyle\sum_{k=1}^n \; k=\displaystyle\sum_{k=1}^{n-1}\; k + n $; on a donc besoin d'une variable $s$ destinée à stocker les termes successifs de la suite, et dans une boucle sur $k$, on ajoute $k$ à $s$: L'algorithme est décrit dans une boîte ombrée:\\
+\begin{pseudocode}[shadowbox]{Somme d'entiers}{n}
+\COMMENT{Calcul de nombres triangulaires}\\
+\ENT k,s\\
+\POUR k \PREND 0 \JUSQUE n \FAIRE
+s \PREND s+k\\
+\RETURN{s}
+\end{pseudocode}\\
+Le pseudocode ci-dessus a été obtenu en tapant dans LaTeX:\\
+\begin{verbatim}
+\begin{pseudocode}[shadowbox]{Somme d'entiers}{n}
+\COMMENT{Calcul de nombres triangulaires}\\
+\ENT k,s\\
+\POUR k \PREND 0 \JUSQUE n \FAIRE
+s \PREND s+k\\
+\RETURN{s}
+\end{pseudocode}
+\end{verbatim}
+\subsection{Boucle "Tant que"}
+La méthode de Héron pour calculer $\sqrt{2}$ consiste à calculer des termes suffisamment lointains des suites $r_n$ et $s_n$ définies récursivement par $r_{n+1}=\dfrac{r_n + s_n}{2}$ et $s_{n+1}=\dfrac{2}{r_{n+1}}$. Bien que les suites $r_n$ et $s_n$ ne soient pas adjacentes, elles convergent toutes les deux vers $\sqrt{2}$ et on estime que lorsque $\left|s_n - r_n \right|<10^{-10}$, $r_n$ est une valeur approchée de $\sqrt{2}$ suffisamment bonne (à $10^{-10}$ près en tout cas). L'algorithme de Héron est présenté dans une boîte rectangulaire à bords arrondis:\\
+\begin{pseudocode}[ovalbox]{Méthode de Héron}{ }
+\COMMENT{Calcule une valeur approchée de }\sqrt{2}\\
+\REEL r,s\\
+r \PREND 1\\
+s \PREND \dfrac{2}{r}\\
+\REPETE \DEBUT
+r \PREND \dfrac{r+s}{2}\\
+s \PREND \dfrac{2}{r}\\
+\FIN
+\JUSQUA \left| r-s \right| \leqslant 10^{-10}\\
+\AFF r\\
+\end{pseudocode}\\
+Pour obtenir l'algorithme ci-dessus, on a entré\\
+\begin{verbatim}
+\begin{pseudocode}[ovalbox]{Méthode de Héron}{ }
+\COMMENT{Calcule une valeur approchée de }\sqrt{2}\\
+\REEL r,s\\
+r \PREND 1\\
+s \PREND \dfrac{2}{r}\\
+\REPETE \DEBUT
+r \PREND \dfrac{r+s}{2}\\
+s \PREND \dfrac{2}{r}\\
+\FIN
+\JUSQUA \left| r-s \right| \leqslant 10^{-10}\\
+\AFF r\\
+\end{pseudocode}
+\end{verbatim}
+\subsection{Récursivité}
+Voici la version récursive de l'agorithme d'Euclide pour calculer un pgcd; on la présente dans une boîte à traits horizontaux:\\
+\begin{pseudocode}[ruled]{pgcd}{a,b}
+\COMMENT{Calcul du pgcd par l'algorithme d'Euclide}\\
+\SI \mbox{ a divise b}\\
+\RETOURNE{a}
+\SINON \\
+\RETOURNE{\mbox{pgcd(a,b-a)}}
+\end{pseudocode}\\
+On l'a obtenu en entrant le code suivant:\\
+\begin{verbatim}
+\begin{pseudocode}[ruled]{pgcd}{a,b}
+\COMMENT{Calcul du pgcd par l'algorithme d'Euclide}\\
+\SI \mbox{ a divise b}\\
+\RETOURNE{a}
+\SINON \\
+\RETOURNE{\mbox{pgcd(a,b-a)}}
+\end{pseudocode}
+\end{verbatim}
+\section{L'environnement "pseudocode"}
+\subsection{Appel}
+Pour entrer dans l'environnement \textit{pseudocode}, on fournit le nom de l'algorithme et la liste de ses variables. On peut aussi donner entre crochets, le style de la boîte choisie. Voir ci-dessus pour des exemples.
+\subsubsection{boîtes}
+Les styles de boîtes possibles sont les suivants:\\
+\begin{tabular}{|c|c|}
+\hline shadowbox & ombrée \\ 
+\hline doublebox & bord dédoublé \\ 
+\hline ovalbox & coins arrondis \\ 
+\hline Ovalbox & ronds plus grands \\ 
+\hline framebox & rectangle \\ 
+\hline plain & pas de bords \\ 
+\hline ruled & traits horizontaux \\ 
+\hline display & sans titre \\ 
+\hline 
+\end{tabular} 
+\subsection{Commentaires}
+Un commentaire (externe à l'algorithme) est donné par 
+\begin{verbatim}
+\COMMENT{commentaire}
+\end{verbatim}
+où le commentaire est donné entre accolades. Les commentaires sont en mode texte. Donc dans un commentaire, il faut retourner dans l'environnement \textit{math} si on veut entrer des formules mathématiques.
+\subsection{Variables}
+On peut déclarer des variables avec un mot-clé parmi les suivants: BOOL, ENT, REEL, CHAINE, TABLEAU, LOCAL, GLOBAL, EXTERNE, représentant respectivement les booléens, les entiers, les réels, les chaînes de caractères, les tableaux, les variables locales, globales et externes. Chaque type de variable est bien entendu précédé de son backslash comme toutes les instructions de \textit{pseudocode}.
+\subsection{Affectation}
+L'affectation est écrite
+\begin{verbatim}
+\PREND
+\end{verbatim}
+et représentée par une flèche vers la gauche.\\
+Ainsi, 
+\begin{verbatim}
+n \PREND n+1
+\end{verbatim}
+donne $n \leftarrow n+1$.
+Le texte dans l'environnement \textit{pseudocode} est par défaut lui-même placé dans l'environnement \textit{math}. Donc il est parfois nécessaire d'utiliser \textit{mbox} pour revenir provisoirement au mode texte, et le saut à la ligne se fait avec le \textit{backslash} dédoublé.
+\subsection{Entrées et sorties}
+L'entrée d'une variable se code
+\begin{verbatim}
+\ENTRER{variable}
+\end{verbatim}
+et sa sortie
+\begin{verbatim}
+\AFF{variable}
+\end{verbatim}
+Le renvoi d'une variable par une procédure s'écrit
+\begin{verbatim}
+\RETOURNE{variable}
+\end{verbatim}
+
+\subsection{blocs}
+un bloc commence par 
+\begin{verbatim}
+\DEBUT
+\end{verbatim}
+et se termine par 
+\begin{verbatim}
+\FIN
+\end{verbatim}
+Tout ce qui est entre les deux balises est indenté et regroupé derrière une accolade. On peut aussi mettre des sous-blocs dans les blocs.\\
+Par exemple,
+\begin{verbatim}
+\DEBUT
+ligne 1\\
+ligne 2\\
+ligne 3
+\FIN
+\end{verbatim}
+produit l'effet suivant:\\
+\begin{pseudocode}[display]{ }{ }
+\DEBUT
+ligne 1\\
+ligne 2\\
+ligne 3
+\FIN
+\end{pseudocode}\\
+On remarque que le double \textit{backslash} n'est pas nécessaire à la fin, et que les espaces ont disparu à l'affichage: Il faut mettre les lignes de texte dans des \textit{mbox} pour éviter cela.
+\section{Tests et boucles}
+\subsection{Tests}
+Un test commence par
+\begin{verbatim}
+\SI test
+\ALORS instruction
+\SINONSI instruction
+\SINON instruction
+\end{verbatim}
+Il n'y a pas de limite au nombre de \textit{SINONSI} et les instructions peuvent être remplacées par des blocs. L'effet obtenu est le suivant:\\
+\qquad \\
+\begin{pseudocode}[display]{ }{ }
+\SI test
+\ALORS instruction
+\SINONSI instruction
+\ALORS instruction
+\end{pseudocode}\\
+\subsubsection{Logique}
+Les opérations logiques sont représentées par les mots-clé VRAI, FAUX, NON, ET et OU (précédés de leur antislash).
+\subsection{Boucles}
+\subsubsection{À nombre prédéfini d'exécutions}
+Pour des boucles où l'indice i va de 0 à 10 par exemple on entre
+\begin{verbatim}
+\POUR i=0 \JUSQUE 10 \FAIRE
+\end{verbatim}
+ou mieux encore
+\begin{verbatim}
+\POUR i \PREND 0 \JUSQUE 10 \FAIRE
+\end{verbatim}
+Lorsque l'indice est élément d'un ensemble on utilise \textit{POURTOUT}:
+\begin{verbatim}
+\POURTOUT x \in \mathbb{N} \FAIRE
+\end{verbatim}
+
+\subsubsection{À condition de sortie}
+Une boucle \textit{tant que} s'écrit
+\begin{verbatim}
+\TANTQUE test \FAIRE instruction
+\end{verbatim}
+Une boucle \textit{jusqu'à} s'écrit
+\begin{verbatim}
+\REPETE instruction \JUSQUA test de sortie
+\end{verbatim}
+\subsection{Sous-programmes}
+On peut vouloir décrire une procédure avant le programme principal. Toutefois dans ce cas on est plus dans la programmation que dans l'algorithmique:\\
+\begin{verbatim}
+\begin{pseudocode}{Programme}{arguments}
+\PROCEDURE{utilitaire}{variables}
+corps
+\FINPROCEDURE
+\MAIN
+corps\\
+\APPEL{utilitaire}{variables}\\
+corps\\
+\ENDMAIN
+\end{pseudocode}
+\end{verbatim}
+\begin{pseudocode}{Programme}{arguments}
+\PROCEDURE{utilitaire}{variables}
+corps
+\FINPROCEDURE
+\MAIN
+corps\\
+\APPEL{utilitaire}{variables}\\
+corps\\
+\ENDMAIN
+\end{pseudocode}\\
+La sortie d'un programme est codée par
+\begin{verbatim}
+\EXIT
+\end{verbatim}
+\subsection{Numérotation}
+On peut numéroter des lignes par
+\begin{verbatim}
+\STMTNUM{2cm}{repère}
+\end{verbatim}
+avec réglage de la distance entre l'instruction et le numéro de ligne.
+\end{document}
