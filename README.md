@@ -145,3 +145,7 @@ premier test :  315 254  deuxieme test :  2764
 nombre de reseau observe :  225
 
 J'en ai parlé à Laurent, le reste de ma semaine servira à décrire plus proprement ces algorithmes. J'ai donc téléchargé un  package latex pour les algos en français. Je commit ces nouveaux fichiers.
+
+
+Jour 4 :
+Ecriture du rapport, grosse partie de NFS avec 2 spécial Q en pseudo code.

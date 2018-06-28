@@ -205,13 +205,80 @@ En règle général, le crible algébrique est utilisé avec l'un des deux polynômes 
 L'objectif principal de mon stage était de partir de la version de Laurent Small NFS (idée qu'il a développé dans sa thèse), et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
 L'avantage, et que cela équilibre les complexités de recherche de relation entre les différents côtés de l'équation. Le désavantage, est que le fait d'imposer 2 spécial-Q, et donc 2 diviseurs, diminue le nombre de relation que l'on va trouver.
 Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q.
-
+Ainsi, la seule partie qui change est la recherche de relation.
 \subsection {Algorithme}
 
-\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}
-\POUR k \PREND 0 \JUSQUE n \FAIRE
-s \PREND s+k\\
-\RETURN{s}
+\begin{nota}[Entrée des algorithmes]
+
+$N$ : nombre a factoriser;
+
+$f$ : polynome; 
+
+$B$ : Limite pour tester la friabilité des nombres (grande limite);
+
+$qrange$ : liste de 2 éléments : les bords de recherche de spécial-Qs;
+
+$H$ : limite de la base sur laquelle on factorise 
+
+construit\_ideal($f_1$,$q_1$) :  fonction écrite par Laurent, renvoie la liste des idéaux de normes $q_1$ dans $\z[X]/f_1\z[x]$
+
+ideal\_matrix(ideal) : renvoie une base du réseau créé par l'idéal.
+
+LLL() est une fonction sage qui permets de changer une matrice en une semblable plus agréable pour les algorithmes
+
+arrange\_matrix(M) : transforme une matrice M en une semblable de la forme utilisé par l'algorithme (de vecteur de base (q 0) et (r, 1) avec $f(r) \equiv 0 [q] $ )
+
+\end{nota}
+
+\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}{N, f_1, f_2, B_1, B_2, qrange_1, qrange_2, H_1, H_2}
+
+q_1 = qrange_1[0]\\
+q_2 = qrange_2[0]\\
+Res = [ ] \\
+\SI q_1 \notin $\p$ \FAIRE
+ q_1 = min (i \in $\p$ | i > q_1) \\
+ \SI q_2 \notin $\p$ \FAIRE
+ q_2 = min (i \in $\p$ | i > q_2) \\
+\TANTQUE q_1 < qrange_1[1] \FAIRE
+\BEGIN
+   ideal_1 = construit\_ideal(f_1, q_1) \\
+   \TANTQUE q_2 < qrange_2[1] \FAIRE
+   \BEGIN
+      ideal_2 = construit\_ideal(f_2, q_2) \\
+      \POUR i \in ideal_1 \FAIRE
+      \BEGIN
+         \POUR j \in ideal_2 \FAIRE
+         \BEGIN
+            Q = crible\_special\_Q(i, j, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2)\\
+            R = R \cup Q
+         \END\\
+      \END\\
+   \END\\
+\END\\
+\RETURN{R}
+\end{pseudocode}\\
+
+\begin{pseudocode}[shadowbox]{crible\_special\_Q}{ideal_1, ideal_2, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2}
+
+ideal = intersect\_ideal(ideal_1, ideal_2) \\
+M = arrange\_matrix(ideal\_matrix(ideal).LLL()) \\
+R = [ ] \\
+\COMMENT{Initialisation des Normes}\\
+array\_norms = [ ] \\
+\POUR i_0, \in [ - H_0,H_0] \FAIRE
+\BEGIN
+  empile(array\_norms, [ [ ] \POUR i \in [ 0, H[1] ] ] ) \\
+   \POUR i_1 \in [0, H_1] \FAIRE
+   \BEGIN
+      (a_0,a_1) = (i_0, i_1)*M \\
+      a = a_0 + a_1x \\
+      array\_norms[i_0 + H[0] ] [i_1] = [N(a, f_1) / ideal_1[0], N(a, f_2) / ideal_2[0]]
+   \END
+\END\\
+
+\COMMENT{Crible}\\
+
+
 \end{pseudocode}\\
 
 \subsection{Résultats}
