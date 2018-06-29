@@ -149,3 +149,6 @@ J'en ai parlé à Laurent, le reste de ma semaine servira à décrire plus propr
 
 Jour 4 :
 Ecriture du rapport, grosse partie de NFS avec 2 spécial Q en pseudo code.
+
+Jour 5 : 
+Fin de l'écriture de NFS avec 2 spécial Q sur le rapport.

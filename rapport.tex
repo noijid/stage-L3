@@ -22,7 +22,7 @@
 %Macros
 \newtheorem{definition}{Définition}
 \newtheorem{nota}{Notation}
-\newcommand{\p}{$\mathbb{P}$} 
+\newcommand{\p}{\mathbb{P}} 
 \newcommand{\z}{\mathbb{Z}} 
 \newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
 \newcommand{\al}{\alpha} 
@@ -75,11 +75,11 @@ J'ai également profité de ce stage pour découvrir d'autres aspects du monde de l
 \subsubsection{Définitions et Notations}
 
 \begin{nota}[Nombre premiers]
-\p \hspace{0.5 cm}Désignera l'ensemble des nombre premiers.
+$ \p $ \hspace{0.5 cm}Désignera l'ensemble des nombre premiers.
 \end{nota}
 
 \begin{definition}[Nombre friable]
-un entier est dit B-friable (resp friable dans $P \subset$ \p) si l'ensemble de ses diviseurs premiers sont inférieurs à B (resp dans P)
+un entier est dit B-friable (resp friable dans $P \subset$ $ \p $) si l'ensemble de ses diviseurs premiers sont inférieurs à B (resp dans P)
 \end{definition}
 
 \begin{definition}[Complexité L]
@@ -220,6 +220,8 @@ $qrange$ : liste de 2 éléments : les bords de recherche de spécial-Qs;
 
 $H$ : limite de la base sur laquelle on factorise 
 
+thresh : liste à 2 éléments : valeurs à partir de laquelle, on considère qu'un entier est trop gros pour être smooth (après crible)
+
 construit\_ideal($f_1$,$q_1$) :  fonction écrite par Laurent, renvoie la liste des idéaux de normes $q_1$ dans $\z[X]/f_1\z[x]$
 
 ideal\_matrix(ideal) : renvoie une base du réseau créé par l'idéal.
@@ -230,15 +232,15 @@ arrange\_matrix(M) : transforme une matrice M en une semblable de la forme utili
 
 \end{nota}
 
-\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}{N, f_1, f_2, B_1, B_2, qrange_1, qrange_2, H_1, H_2}
+\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}{N, f_1, f_2, B_1, B_2, qrange_1, qrange_2, H_1, H_2, thresh}
 
 q_1 = qrange_1[0]\\
 q_2 = qrange_2[0]\\
 Res = [ ] \\
-\SI q_1 \notin $\p$ \FAIRE
- q_1 = min (i \in $\p$ | i > q_1) \\
- \SI q_2 \notin $\p$ \FAIRE
- q_2 = min (i \in $\p$ | i > q_2) \\
+\SI q_1 \notin \p  \FAIRE
+ q_1 = min (i \in  \p  | i > q_1) \\
+ \SI q_2 \notin  \p  \FAIRE
+ q_2 = min (i \in  \p  | i > q_2) \\
 \TANTQUE q_1 < qrange_1[1] \FAIRE
 \BEGIN
    ideal_1 = construit\_ideal(f_1, q_1) \\
@@ -249,7 +251,7 @@ Res = [ ] \\
       \BEGIN
          \POUR j \in ideal_2 \FAIRE
          \BEGIN
-            Q = crible\_special\_Q(i, j, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2)\\
+            Q = crible\_special\_Q(i, j, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2, thresh)\\
             R = R \cup Q
          \END\\
       \END\\
@@ -258,12 +260,13 @@ Res = [ ] \\
 \RETURN{R}
 \end{pseudocode}\\
 
-\begin{pseudocode}[shadowbox]{crible\_special\_Q}{ideal_1, ideal_2, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2}
+\begin{pseudocode}[shadowbox]{crible\_special\_Q}{ideal_1, ideal_2, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2, thresh}
 
 ideal = intersect\_ideal(ideal_1, ideal_2) \\
 M = arrange\_matrix(ideal\_matrix(ideal).LLL()) \\
 R = [ ] \\
 \COMMENT{Initialisation des Normes}\\
+\COMMENT{ les crible mesurent la friabilite en modifiant les norms} \\
 array\_norms = [ ] \\
 \POUR i_0, \in [ - H_0,H_0] \FAIRE
 \BEGIN
@@ -277,6 +280,40 @@ array\_norms = [ ] \\
 \END\\
 
 \COMMENT{Crible}\\
+\POUR j \in \{1,2\} \FAIRE
+\BEGIN
+   \POUR  i \in [2, fbb_j] \cap  \p   \FAIRE
+   \BEGIN
+   r = racine(M,i) \\
+    \SI i[0]<2*H[0] \\       
+  \FAIRE
+         crible\_lineaire(i[0],r,H_j,array\_norms, j)
+   \SINON
+          \FAIRE crible\_algebrique( i[0], r, H_j, array\_norms, j)
+   \END
+\END\\
+
+\COMMENT{Cofactorisation}\\
+\POUR i\in [-H[0],H[0]] \FAIRE
+\BEGIN
+   \POUR j \in [0,H[1]] \FAIRE
+   \BEGIN
+      \POUR qside \in \{1,2\} \FAIRE
+      \BEGIN
+         norme = array_norms[ i + H [ 0 ] ] [ j ] \\
+         test = norme[0] < thresh[0] \ET norme[1] < thresh[1] \\
+         \SI test \FAIRE
+         \BEGIN
+            (a_0, a_1) = (i_0, i_1) * M \\
+            \SI pgcd(a_1,a_1) = 1 \ \ET a_1 >=0  \FAIRE
+            \BEGIN
+               empile(R, factoriser(a_0 + a_1*x)
+            \END 
+         \END
+      \END
+   \END
+\END\\
+\RETURN{R}
 
 
 \end{pseudocode}\\
@@ -285,7 +322,7 @@ array\_norms = [ ] \\
 
 \subsubsection{Conséquences sur les doublons}
 
-Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ \p tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
 
 
 
