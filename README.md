@@ -117,7 +117,7 @@ Suite à un problème de typage, je ne peux pas faire de test informatiquement p
 # semaine 4:
 
 Jour 1 :
-Relecture du code avec la thèse de Laurent, modifiations pour le code s'execute. On trouve sur des entrées plus ou moins aléatoire (au niveau du choix des spécial Q) anormalement beaucoup de relations que l'on doit jetter, je ne sais toujours pas si l'implémentation est correcte ou pas
+Relecture du code avec la thèse de Laurent, modifiations pour que le code s'execute. On trouve sur des entrées plus ou moins aléatoire (au niveau du choix des spécial Q) anormalement beaucoup de relations que l'on doit jetter, je ne sais toujours pas si l'implémentation est correcte ou pas
 
 Jour 2 : Réunion avec Laurent et Guillaume, présentation du travail de la semaine précédente et de ce qui reste à faire.
 Enfin, une version fonctionnelle de la recherche de relation pour le multi spécial Q. Il manque plus que le choix des spécial Q et on sera bon. (Je pensais pas réussir à débugger aussi vite) Modification du programme pour gérer les 2 spécials-Q ( qrange1 et 2) 
@@ -151,4 +151,12 @@ Jour 4 :
 Ecriture du rapport, grosse partie de NFS avec 2 spécial Q en pseudo code.
 
 Jour 5 : 
-Fin de l'écriture de NFS avec 2 spécial Q sur le rapport.
+Fin de l'écriture de NFS avec 2 spécial Q sur le rapport. Présentation rapide de cado NFS par Laurent
+
+# Semaine 5
+
+Jour 1 : Réunion avec Laurent et Guillaume présentation du travail de la semaine précédente et de ce qui doit être fait cette semaine : finir l'implémentation de nfs avec 2 special Q pour l'incorporer au reste de l'algorithme avec cado NFS. Correction du rapport.
+Lancement de l'algorithme avec 2 spécials-Qs et des polynômes obtenus par CADO-NFS sur un C30.
+Avancement du rapport.
+
+Jour 2 : Lancement d'un calcul (qui va surement prendre une vingtaine d'heure), correction du code ( pour ne plus avoir le problème lorsque l'on divise un nombre 2 fois par q). amélioration du rapport.

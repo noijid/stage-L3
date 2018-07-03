@@ -32,39 +32,36 @@
 
 
 
-
-
-
-
 \begin{document}
 
 \maketitle
 
-\abstract
+\begin{abstract}
+
+\end{abstract}
+
+\section{Context du stage} 
+
+\subsection{L'équipe}
 
 
-Du 3 Juin 2018 au 13 Juillet 2018, j'ai effectué un stage au sein du LIP (situé à Lyon), dans une équipe travaillant en cryptographie. Au cours de ce stage, j'ai pu m'intéresser à la factorisation de grands entiers, ce qui a une place très importante en cryptographie
+Du 3 Juin 2018 au 13 Juillet 2018, j'ai effectué un stage au sein du LIP (situé à Lyon), dans l'équipe Aric travaillant en cryptographie. Au cours de ce stage, j'ai pu m'intéresser à la factorisation de grands entiers, ce qui a une place très importante en cryptographie.
 Plus largement, ce stage a été l'opportunité pour moi d'être initié à la recherche.
-Au-delà d'enrichir mes connaissances en informatique théorique et de me forger une culture général sur des choses que l'on rencontre très fréquemment en informatique, comme le chiffrement RSA ou ce qu'est l'informatique quantique; ce stage m'a permis de développer mes compétences sous différents aspects : en programmation, en me faisant notamment manipuler un nouveau langage très utile dans le secteur de la recherche en informatique : Sage, qui est une surcouche de Python et en m'efforçant d'utiliser Bash dans un terminal, git et latex, afin de mieux développer mes capacités avec ces outils informatiques très utiles dans la vie de tous les jours.
+Au-delà d'enrichir mes connaissances en informatique théorique et de me forger une culture général, ce stage m'a permis de développer mes compétences sous différents aspects : en programmation, en me faisant notamment manipuler un langage qui m'étais encore inconnu et très utile dans le secteur de la recherche en informatique et mathématiques : Sage, qui est une surcouche de Python; et en m'efforçant d'utiliser Bash dans un terminal, git et latex, afin de mieux développer mes capacités avec ces outils informatiques très utiles dans le monde de la recherche.
 
+\subsection{Le monde de la recherche}
 
-Mon stage au sein de cette équipe a consisté essentiellement à l'étude, la compréhension et l'écriture du code d'algorithme de factorisation de grands entiers : Quadratic Sieve (crible quadratique) et Number Field Sieve (crible algébrique). Puis, à  modifier le code du crible algébrique afin d'essayer de l'accélérer. Ainsi, en comparant des temps de calculs, à défaut d'avoir des machines aussi puissantes et des codes aussi efficaces que ceux qui réalisent les records de factorisation, cela permets de savoir si ces records sont améliorables, et dans quelle mesure. Ces deux algorithmes ont pour but de factoriser un entier en cherchant des congruences de carrés. Ils ont un intérêt certains puisque QS a notamment permis de factoriser RSA-129, le 2 Avril 1994. Puis, le 10 Avril 1996, NFS a factorisé RSA-130, et a ainsi battu le record établis par QS 2 ans auparavant. Puis, en 1999, SNFS (une version modifiée de NFS) a factorisé un nombre à 211 chiffres : $(10^{211}-1)/{9}$. (selon \cite{ref6} ). Dès lors, NFS a obtenu de nombreux records de factorisation comme RSA-576 en 2003, RSA-640 en 2005 et RSA-768 en 2009.
+J'ai également profité de ce stage pour avoir une meilleure culture générale sur différents domaines de recherche. En assistant à des "crypto-meeting", à des exposés sur des sujets divers comme Shortest Vector Problem (SVP), à  une soutenances de stage de M2 sur les Simple Stochastic Games (SSG), ou en lisant des articles sur différents sujets de recherche, comme RSA, l'algorithme de Shor (en informatique quantique). 
  
-J'ai également profité de ce stage pour découvrir d'autres aspects du monde de la recherche, comme en assistant à des "crypto-meeting", à des exposés sur des sujets divers comme  Shortest Vector Problem (SVP), à  une soutenances de stage de M2 sur les Simple Stochastic Games (SSG), ou en lisant des articles sur des sujets différents du mien, comme RSA, l'algorithme de Shor (en informatique quantique). 
+ \subsection{Le sujet}
 
-%Ce stage a donc été une opportunité pour moi de percevoir comment une entreprise dans un secteur [décrire ici les caractéristiques du secteur : concurrence, évolution, historique, acteurs? et quelle stratégie l?entreprise a choisie dans ce secteur. Ainsi que l?apport du département et du poste occupé dans cette stratégie?]
+Mon stage au sein de cette équipe a consisté essentiellement à l'étude, la compréhension et l'écriture du code d'algorithme de factorisation de grands entiers : Quadratic Sieve (crible quadratique) et Number Field Sieve (crible algébrique). Puis d'essayer une potentielle amélioration du second.
+Ces deux algorithmes ont pour but de factoriser un entier en cherchant des congruences de carrés. Ces algorithmes sont très efficaces puisqu'ils ont permis de factoriser de nombreux nombres RSA (les nombres RSA-$n$ sont des nombres de $n$ bits produite de deux "grands" nombres premiers)
+Ils ont un intérêt certains puisque QS a notamment permis de factoriser RSA-129, le 2 Avril 1994. Puis, le 10 Avril 1996, NFS a factorisé RSA-130, et a ainsi battu le record établis par QS 2 ans auparavant. Puis, en 1999, SNFS (une version modifiée de NFS) a factorisé un nombre à 211 chiffres (701 bits) : $(10^{211}-1)/{9}$. (selon \cite{ref6} ). Dès lors, NFS a obtenu de nombreux records de factorisation comme RSA-576 en 2003, RSA-640 en 2005 et RSA-768 en 2009.
 
-%L?élaboration de ce rapport a pour principale source les différents enseignements tirés de la pratique journalière des tâches auxquelles j?étais affecté. Enfin, les nombreux entretiens que j?ai pu avoir avec les employés des différents services de la société m?ont permis de donner une cohérence à ce rapport.
+\subsection{Ma participation à la recherche}
 
-
-
-
-%Annonce de plan 
-
-%En vue de rendre compte de manière fidèle et analytique des [?] mois passés au sein de la société [?], il apparaît logique de présenter à titre préalable l?environnement économique du stage, à savoir le secteur de [?] (I), puis d?envisager le cadre du stage : la société [?], tant d?un point de vue [?] (II). Enfin, il sera précisé les différentes missions et tâches que j?ai pu effectuer au sein du service [?], et les nombreux apports que j?ai pu en tirer (III).
-
-
-
+Ma modeste participation au monde de la recherche consistait à modifier le code du crible algébrique afin d'essayer de l'accélérer. Ainsi, en comparant des temps de calculs, d'une même base d'implémentation, mais en utilisant d'une part l'algorithme habituel, et d'autre part celui qui fût l'objet principale de mon stage, ce stage a permis d'observer l'intérêt du dit algorithme, et si celui ci permettais de gagner en temps de calcul. 
 
 
 
@@ -85,12 +82,12 @@ un entier est dit B-friable (resp friable dans $P \subset$ $ \p $) si l'ensemble
 \begin{definition}[Complexité L]
 On notera $L_N(x,y)$ avec $0 \le x \le 1$ la complexité tel que
 \begin{equation}
-L_N(x,y) = \lfloor \exp( (y + o(1))\log(N)^x \log(\log(N))^{1-x} ) \rfloor
+L_N(x,y) = \lfloor \exp((y + o(1))\log(N)^x \log(\log(N))^{1-x} ) \rfloor
 \end{equation}
 \end{definition}
 
 \begin{nota}
-On notera simplemant $L(x)$ pour $L_N(x,1)$
+On notera simplemant $L(x)$ pour $L_N(x,\cdot)$ avec $N$ implicitement déterminé par l'entier à factoriser (car la dépendance en $x$ influe beaucoup plus que celle en $y$).
 \end{nota}
 
 \subsubsection{L'algorithme}
@@ -101,7 +98,7 @@ Cet algorithme, s'inspire du crible d'Eratosthène pour factoriser de grands enti
 Ceci est toujours possible car $a*b = (\frac{a+b}{2})^2 - (\frac{a-b}{2})^2$. On constate alors, qu'étant donnée $u$, il faut que $u^2-N$ soit un carrée pour avoir une telle décomposition.
 
 
-Pour se faire, on distingue 2 types de diviseurs : les petits, qui seront recherchés de manière exhaustive( jusqu'à $\log(N)$); et les plus gros, qui seront recherchés avec l'algorithme décrit plus loin.
+Pour se faire, on distingue 2 types de diviseurs : les petits, qui seront recherchés de manière exhaustive (jusqu'à $\log(N)$); et les plus gros, qui seront recherchés avec l'algorithme décrit plus loin.
 
 
 On modifie alors le crible d'Eratosthène pour créer une fonction $Eratosthene (x,I,J,P)$ décrite dans \cite{ref3} qui prends en arguments 3 entiers $x$, $I$ et $J$ et une liste de nombre premier $P$ et qui renvoie les nombres $y$ compris entre $I$ et $J$, et tel que $y^2 - x$ soit friable dans $P$, ainsi que leurs décomposition, et la valeur de $y^2-x$. (En pratique, on peut autoriser un des facteurs en dehors de $P$, et c'est d'ailleurs comme ça que je l'ai implémenté pour gagner en temps de calcul, mais ce n'est pas obligatoire).
@@ -116,7 +113,7 @@ Dès lors, on ne s'intéresse qu'aux entiers $p$ tel que $N$ soit un carrée modulo
 Dès lors, si l'on note $B = |P|$,  et qu'on s'intéresse uniquement à la valuations p-adique dans \ztz ; et si l'on trouve au moins $B+1$ valeurs $u_i$ telle que $v_i=y^2-x$ soit friable dans $P$(à l'aide du crible d'Eratosthène modifié), ces vecteurs seront liés, et donc, on disposera d'une relation de dépendance linéaire $(\nu_1, ... , \nu_{B+1})$ de ces valuations dans \ztz, ce qui signifie que leur produit sera un carré.
 
 On aura alors : $u^2 = \Pi_{i=1}^{B+1} (u_i^2)^{\nu_i} \equiv v^2 = \Pi_{i=1}^{B+1} (v_i^2)^{\nu_i} [n]$ .
-Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème qui est vérifié en pratique mais dont je ne me suis pas plongé dans la preuve, cela est vrai avec une probabilité supérieure à $1/2$ ) 
+Il reste alors à vérifier que $\mathop{pgcd}(u-v,N) \notin \{1,n\}$ (d'après un théorème qui est vérifié en pratique mais dont je ne me suis pas plongé dans la preuve, cela est vrai avec une probabilité supérieure à $1/2$ ) 
 
 \subsection{Code Sage}
 
@@ -125,6 +122,182 @@ Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème 
 
 \begin{lstlisting}
 
+from time import time
+
+N = 13290059
+
+def racine(a, p):
+    """
+    Square root modulo prime number
+    Solve the equation
+        x^2 = a mod p
+    and return list of x solution
+    http://en.wikipedia.org/wiki/Tonelli-Shanks_algorithm
+    this code comes from the following website, but it's noth the most important part of the algorithm, si i just copy pasted it
+    https://codereview.stackexchange.com/questions/43210/tonelli-shanks-algorithm-implementation-of-prime-modular-square-root
+    """
+    a %= p
+
+    # Simple case
+    if a == 0:
+        return [0]
+    if p == 2:
+        return [a]
+    # Simple case
+
+    if p % 4 == 3:
+        x = power_mod(a, (p + 1)//4, p)
+        return [x, p-x]
+
+    # Factor p-1 on the form q * 2^s (with Q odd)
+    q, s = p - 1, 0
+
+    while q % 2 == 0:
+        s += 1
+        q //= 2
+    # Select a z which is a quadratic non resudue modulo p
+    z = 1
+    while power_mod(z, (p-1)//2,p) != p-1:
+        z += 1
+    c = power_mod(z, q, p)
+
+    # Search for a solution
+    x = power_mod(a, (q + 1)//2, p)
+
+    t = power_mod(a, q, p)
+
+    m = s
+    while t != 1:
+        # Find the lowest i such that t^(2^i) = 1
+        i, e = 0, 2
+        for i in xrange(1, m):
+            if power_mod(t, e, p) == 1:
+                break
+            e *= 2
+
+        # Update next value to iterate
+        b = power_mod(c, 2**(m - i - 1), p)
+        x = (x * b) % p
+        t = (t * b * b) % p
+        c = (b * b) % p
+        m = i
+
+    return [x, p-x]
+
+#list of prime numbers
+n = 10**6
+premier = [i for i in range(2,n) if ZZ(i).is_prime()]
+
+#Sieve to compute prime factors of f(x) where f(x) = x**2-N%P for x in [I,J]
+def eratosthene(N,I,J,P):
+    L = [k*k-N for k in range(I,J+1)]
+    factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
+    for k in range(len(P)):
+        p = P[k]
+        ip = I%p
+        R = racine(N,p) #R {x,y} where (x**2-N)%p =0 and (y**2-N)%p=0
+        for j in range(len(R)):
+            rp = R[j]%p
+            if rp >= ip :
+                i = I + (rp - ip)
+            else :
+                i = I + p + (rp - ip)
+            while i<=J:
+                while L[i-I]%p==0:
+                    L[i-I] = L[i-I]/p
+                    factors[i-I][k] +=1
+                i += p
+    L2 = [i+I for i in range(J-I+1) if L[i]<P[-1]**2]
+    cof = [L[i] for i in range(J-I+1) if L[i]<P[-1]**2]
+    Q = [L2[i]*L2[i] - N for i in range(len(L2)) ]
+    factors2 = [factors[i] for i in range(J-I+1) if L[i]<P[-1]**2]
+    i = 0
+    while i< len(cof):
+        if cof[i] !=1:
+            for j in range(i+1,len(cof)):
+                if(cof[j] == cof[i]):
+                    cof.pop(j)
+                    a =L2.pop(j)
+                    cof[i]=1
+                    Q[i] = Q[i]*Q[j]
+                    Q.pop(j)
+
+                    L2[i] *=a
+                    factors2[i] = [factors2[i][k]+factors2[j][k] for k in range(len(P))]
+                    factors2.pop(j)
+                    break
+        i+=1
+    L2 = [L2[i] for i in range(len(cof)) if cof[i]==1]
+    Q = [Q[i] for i in range(len(cof)) if cof[i]==1]
+
+    factors2 = [factors2[i] for i in range(len(cof)) if cof[i]==1]
+    return L2,factors2, Q # L2[i]**2-N is a smooth number and factors[i] is his factorisation
+
+def ker(V):
+    """return a basis of ker V"""
+    A = matrix(V)
+    K = A.kernel().basis_matrix()
+    return  K
+
+def factor_base(N,B):
+    i = 1
+    res = [2]
+    while(premier[i]<B):
+        p = premier[i]
+        a = power_mod(N,(p-1)//2,p)
+        if a==1:
+            res.append(premier[i])
+        i +=1
+    return res
+
+def iterativ(x):
+    r = int(sqrt(x))
+    n = int(log(x))
+    i = 2
+    while i<=min(r,n):
+        if x%i==0 :
+            return i
+        i +=1
+    return -1
+
+def quadratic_sieve(x,B,N):
+    rac = int(x**0.5)
+    V = []
+    Q = []
+    racines = []
+    if(rac**2 == x):
+        return rac
+    P = factor_base(x,B)
+    racines, V, Q = eratosthene(x,rac+1,rac+N,P)
+    print len(V)
+    M = MatrixSpace(GF(2),len(V),len(V[0]))
+    V = M(V)
+    V = ker(V)
+
+    l,c = V.dimensions()
+    print "nombre de vecteur du ker :", l
+    for j in range(l):
+        u = 1
+        v = 1
+        for i in range(c):
+            if V[j][i]==1 :
+                u = u*racines[i]
+                v = v*Q[i]
+                
+        v = int(sqrt(v))
+        if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
+            return gcd(u-v,x), l
+    return -1, l
+
+def fact(x,B,N):
+    t0 = int(time())
+    if iterativ(x)==-1:
+        res, l = quadratic_sieve(x,B,N)
+        t1 = int(time())
+        print "temps de calcul :", t1-t0, "secondes"
+        return res, l, t1-t0
+    else :
+        return iterativ(x)
 
 \end{lstlisting}
 
@@ -135,7 +308,7 @@ Il reste alors à vérifier que $pgcd(u-v,N) \notin \{1,n\}$ (d'après un théorème 
 
 
 
-\section{Crible algébrique(Number Field Sieve)}
+\section{Crible algébrique (Number Field Sieve)}
 
 \subsection{Introduction}
 
@@ -148,7 +321,7 @@ Le crible algébrique pousse cette idée plus loin, en considérant, des polynômes 
 
 \subsubsection{Idée de l'algorithme}
 Une première version de NFS est présentée dans \cite{ref2} permettant de factoriser des entiers s'écrivant $n = x^3 +k$ avec $k$ petit. En pratique, NFS calcul une factorisation d'un entier $N$ en trouvant deux polynômes $f$ et $g$ ayant une racine commune $m$ modulo $n$. Puis, l'algorithme se place dans deux anneaux $\z[\al_1]$ et $\z[\al_2]$ avec $\al_1, \al_2$ racines respectivement de $f$ et $g$ où, comme pour le crible quadratique, le but est de trouver $x$ et $y$ tel que $x^2 \equiv y^2 [n]$, mais les nombres en question sont ici plus petits. Puis à l'aide de morphismes, en envoyant $\al_1$ et $\al_2$ sur $m$, on se ramène à $\z/n\z$ où les congruences reste valable.
-Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets selon \cite{ref7} (et la thèse de Laurent Grémy) mais ce n'est pas la partie traitée ici
+Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets selon \cite{ref7} mais ce n'est pas la partie traitée ici
 
 \begin{figure}
 \centering
@@ -193,16 +366,16 @@ Résultat observé. J'ai lancé la 1\ere version de small NFS fourni par Laurent, e
 On utilise alors un la même procédure que dans le crible quadratique, en utilisant les formes factorisées des nombre précédents pour obtenir une congruence de carrés.  Pour ce faire, on décompose les valeurs de $a_i-\al b_i$ en facteur premier dans $\z[\al_1]$ et $\z[\al_2]$. On s'intéresse aux exposants modulo $2$ des facteurs premiers apparaissant dans les décompositions. Et, à l'aide d'outils offerts par Sage, on calcul le noyau de la matrice composé de ces exposants pour trouvé une combinaison de $a_i- \al b_i$qui est à la fois un carré pour $i = 1$ et pour $i = 2$.
 
 \subsubsection{Factorisation}
-Une fois qu'on a obtenu le noyau de la matrice, on injectre $\z[\al_1]$ et $\z[\al_2]$, dans $\z/N\z$ avec $\al_i -> m$. La congruence est alors conservée car m est racine commune de $f$ et $g$. L'algèbre linéaire nous dit alors que les 2 factorisations obtenus dans les 2 anneaux respectifs sont bien congru l'un à l'autre modulo N, et on obtient alors une relation de la forme $u^2 \equiv v^2 [N]$, ce qui donne une factorisation de N avec une probabilité supérieure à 1/2 (encore une fois, ce résultat n'a pas été étudié).
+Une fois qu'on a obtenu le noyau de la matrice, on injecte $\z[\al_1]$ et $\z[\al_2]$, dans $\z/N\z$ avec $\al_i -> m$. La congruence est alors conservée car m est racine commune de $f$ et $g$. L'algèbre linéaire nous dit alors que les 2 factorisations obtenus dans les 2 anneaux respectifs sont bien congru l'un à l'autre modulo N, et on obtient alors une relation de la forme $u^2 \equiv v^2 [N]$, ce qui donne une factorisation de N avec une probabilité supérieure à 1/2 (encore une fois, ce résultat n'a pas été étudié).
 
 \subsubsection{Utilisation habituelle de NFS}
 En règle général, le crible algébrique est utilisé avec l'un des deux polynômes (disons $g$) de degré 1. En particulier, on prend souvent $g(x) = x- m$. Dès lors, on qualifie d'algébrique la partie de l'algorithme portant sur $f$ et de rationnelle celle portant sur $g$ (car $\z[\al_2] = \z$). Le spécial-Q est alors imposé que dans la partie algébrique de NFS (car c'est la partie la plus dur à factoriser).
 
 
-\section{Small NFS : objet principal de mon stage}
+\section{ NFS multi-special-Qs: objet principal de mon stage}
 
 \abstract
-L'objectif principal de mon stage était de partir de la version de Laurent Small NFS (idée qu'il a développé dans sa thèse), et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
+L'objectif principal de mon stage était de partir de l'implémentation de Laurent de NFS :  Small NFS (idée qu'il a développé dans sa thèse), et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
 L'avantage, et que cela équilibre les complexités de recherche de relation entre les différents côtés de l'équation. Le désavantage, est que le fait d'imposer 2 spécial-Q, et donc 2 diviseurs, diminue le nombre de relation que l'on va trouver.
 Je devais donc analyser les différents temps de calculs de Small NFS avec 1 ou 2 spécial-Q pour observer si, en pratique, on y gagne ou pas à imposer 2 spécial-Q.
 Ainsi, la seule partie qui change est la recherche de relation.
@@ -220,31 +393,21 @@ $qrange$ : liste de 2 éléments : les bords de recherche de spécial-Qs;
 
 $H$ : limite de la base sur laquelle on factorise 
 
-thresh : liste à 2 éléments : valeurs à partir de laquelle, on considère qu'un entier est trop gros pour être smooth (après crible)
+thresh : liste à 2 éléments : valeurs à partir de laquelle, on considère qu'un entier est trop gros pour être smooth (après crible);
 
-construit\_ideal($f_1$,$q_1$) :  fonction écrite par Laurent, renvoie la liste des idéaux de normes $q_1$ dans $\z[X]/f_1\z[x]$
+construit\_ideal($f_1$,$q_1$) :  fonction écrite par Laurent, renvoie la liste des idéaux de normes $q_1$ dans $\z[X]/f_1\z[x]$;
 
-ideal\_matrix(ideal) : renvoie une base du réseau créé par l'idéal.
-
-LLL() est une fonction sage qui permets de changer une matrice en une semblable plus agréable pour les algorithmes
-
-arrange\_matrix(M) : transforme une matrice M en une semblable de la forme utilisé par l'algorithme (de vecteur de base (q 0) et (r, 1) avec $f(r) \equiv 0 [q] $ )
+ideal\_matrix(ideal) : renvoie une base du réseau créé par l'idéal;
 
 \end{nota}
 
-\begin{pseudocode}[shadowbox]{Small NFS avec 2 spécial-Qs}{N, f_1, f_2, B_1, B_2, qrange_1, qrange_2, H_1, H_2, thresh}
+\begin{pseudocode}[shadowbox]{NFS avec 2 spécial-Qs}{N, f_1, f_2, B_1, B_2, qrange_1, qrange_2, H_1, H_2, thresh}
 
-q_1 = qrange_1[0]\\
-q_2 = qrange_2[0]\\
-Res = [ ] \\
-\SI q_1 \notin \p  \FAIRE
- q_1 = min (i \in  \p  | i > q_1) \\
- \SI q_2 \notin  \p  \FAIRE
- q_2 = min (i \in  \p  | i > q_2) \\
-\TANTQUE q_1 < qrange_1[1] \FAIRE
+R = [$ $]
+\POUR q_1$ premier dans $qrange_1 \FAIRE
 \BEGIN
    ideal_1 = construit\_ideal(f_1, q_1) \\
-   \TANTQUE q_2 < qrange_2[1] \FAIRE
+   \POUR q_2$ premier dans $qrange_2   \FAIRE
    \BEGIN
       ideal_2 = construit\_ideal(f_2, q_2) \\
       \POUR i \in ideal_1 \FAIRE
@@ -262,55 +425,39 @@ Res = [ ] \\
 
 \begin{pseudocode}[shadowbox]{crible\_special\_Q}{ideal_1, ideal_2, f_1, f_2, B_1, B_2, fbb_1, fbb_2, H_1, H_2, thresh}
 
-ideal = intersect\_ideal(ideal_1, ideal_2) \\
-M = arrange\_matrix(ideal\_matrix(ideal).LLL()) \\
-R = [ ] \\
+M = $matrice de l'intersection des idéaux$ \\
+R = [$ $] \\
 \COMMENT{Initialisation des Normes}\\
-\COMMENT{ les crible mesurent la friabilite en modifiant les norms} \\
-array\_norms = [ ] \\
+array\_norms = [$ $] \\
 \POUR i_0, \in [ - H_0,H_0] \FAIRE
 \BEGIN
-  empile(array\_norms, [ [ ] \POUR i \in [ 0, H[1] ] ] ) \\
+  empile(array\_norms, [ [ $ $] \POUR i \in [ 0, H[1] ] ] ) \\
    \POUR i_1 \in [0, H_1] \FAIRE
    \BEGIN
       (a_0,a_1) = (i_0, i_1)*M \\
       a = a_0 + a_1x \\
-      array\_norms[i_0 + H[0] ] [i_1] = [N(a, f_1) / ideal_1[0], N(a, f_2) / ideal_2[0]]
+      array\_norms[i_0 + H[0] ] [i_1] = [N(a, f_1) / ideal_1[0], N(a, f_2) / ideal_2[0]] \\
+      \COMMENT{On retire aux normes la participation des idéaux qu'on crible}
    \END
 \END\\
 
 \COMMENT{Crible}\\
+\COMMENT{ les crible mesurent la friabilite en modifiant les norms} \\
 \POUR j \in \{1,2\} \FAIRE
 \BEGIN
-   \POUR  i \in [2, fbb_j] \cap  \p   \FAIRE
+   \POUR  i$ premier, inférieur à $fbb_j   \FAIRE
    \BEGIN
    r = racine(M,i) \\
-    \SI i[0]<2*H[0] \\       
-  \FAIRE
-         crible\_lineaire(i[0],r,H_j,array\_norms, j)
-   \SINON
-          \FAIRE crible\_algebrique( i[0], r, H_j, array\_norms, j)
-   \END
+   $Utilise le crible pour réduire les normes $
+       \END
 \END\\
 
 \COMMENT{Cofactorisation}\\
-\POUR i\in [-H[0],H[0]] \FAIRE
-\BEGIN
-   \POUR j \in [0,H[1]] \FAIRE
+\POUR y =a _0 + a_1x $ dans le réseau avec $a_0, a_1$ premiers entre eux $ \FAIRE
    \BEGIN
-      \POUR qside \in \{1,2\} \FAIRE
-      \BEGIN
-         norme = array_norms[ i + H [ 0 ] ] [ j ] \\
-         test = norme[0] < thresh[0] \ET norme[1] < thresh[1] \\
-         \SI test \FAIRE
+      \SI $ la norme restant de $y$ est inférieur à Thresh $ \FAIRE
          \BEGIN
-            (a_0, a_1) = (i_0, i_1) * M \\
-            \SI pgcd(a_1,a_1) = 1 \ \ET a_1 >=0  \FAIRE
-            \BEGIN
-               empile(R, factoriser(a_0 + a_1*x)
-            \END 
-         \END
-      \END
+               empile(R, factoriser(a_0 + a_1*x))
    \END
 \END\\
 \RETURN{R}
@@ -318,13 +465,23 @@ array\_norms = [ ] \\
 
 \end{pseudocode}\\
 
+\subsection{CADO-NFS : un outil utile}
+
+Pour tester de manières plus efficaces mes algorithmes, j'utilisais Cado-NFS que l'on trouve ici : \cite{ref8}. 
+C'est une implémentation de NFS permettant d'obtenir des résultats intermédiaire, d'exécuter plusieurs parties de l'algorithmes seuls. Ainsi, j'utilisais cette implémentation pour me placer dans un cas favorable à l'utilisation de 2 spécial-Qs, et car l'objet de mon stage était portée seulement sur la recherche des relations, et non sur l'écriture de tout le code de NFS.
+
+CADO-NFS permets, en lui donnant en entrée un nombre $N$ que l'on souhaite factoriser, d'obtenir des polynômes ayant une racine commune modulo $N$. Puis, en utilisant ces polynômes en entrée du programmes que j'ai écris, on obtient des relations que l'on peut à nouveau donner à CADO-NFS pour qu'il termine la factorisation.
+
 \subsection{Résultats}
 
 \subsubsection{Conséquences sur les doublons}
 
 Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
 
+\subsubsection{Valeurs numériques}
 
+
+\section*{Conclusion}
 
 \bibliographystyle{alpha}    
 \bibliography{bibliographie}
