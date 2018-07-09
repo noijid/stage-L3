@@ -29,18 +29,95 @@
 \newcommand{\ere}{\textsuperscript{ère} }
 \newcommand{\er}{\textsuperscript{er} }
 \newcommand{\eme}{\textsuperscript{ème} }
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 
 
 \begin{document}
 
-\maketitle
+
+\begin{titlepage}
+  \begin{sffamily}
+  \begin{center}
+
+    % Upper part of the page. The '~' is needed because \\
+    % only works if a paragraph has started.
+
+\vspace{1cm}
+\vfill
+    \textsc{\LARGE École Normale Supérieure de Lyon}\\[2cm]
+
+\vspace{1cm}
+
+    \textsc{\Large Rapport de stage L3}\\[1.5cm]
+
+
+    % Title
+    \vfill
+    \HRule \\[0.4cm]
+    { \huge \bfseries Factorisation et calcul de logarithmes discrets\\[0.4cm] }
+
+    \HRule \\[2cm]
+
+    % Author and supervisor
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushleft} \large
+        Nacim \textsc{Oijid}\\
+      \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+      \begin{flushright} \large
+        \emph{Tuteur :} M. Laurent \textsc{Grémy}\\
+      \end{flushright}
+    \end{minipage}
+
+    \vfill
+
+    % Bottom of the page
+    {\large 4 juin 2018 - 13 juillet 2018}
+
+  \end{center}
+  \end{sffamily}
+  
+ \begin{center}
+  \includegraphics[width = 20mm]{ENS_Lyon.png} \hfill
+  \includegraphics[width = 20mm]{cnrs.jpg} \hfill
+  \includegraphics[width = 20mm]{LIP.png}\hfill
+  \includegraphics[width = 20mm]{univ_lyon.jpg} \hfill
+  \includegraphics[width = 20mm]{ucbl.jpg}
+
+\end{center}
+\end{titlepage}
+
+%\maketitle
+
+
+
+\newpage
 
 \begin{abstract}
 
+RSA est le système de cryptographie le plus utilisé aujourd'hui. C'est un système de chiffrement asymétrique qui repose sur la difficulté de factorisé un grand nombre (la clé publique produit de 2 nombres premiers (qui constituent la clé privée). Ainsi, la factorisation d'entier, est un problème très compliqué aujourd'hui, trouver un algorithme efficace pour résoudre ce problème renverserai les systèmes de cryptographie.
+
+\vspace{0.5cm}
+
+La complexité du problème de la factorisation d'un grand nombre est encore ouvert aujourd'hui. On sait que ce problème est à la fois dans NP et dans co-NP, mais sa NP-complétude n'a pas été montré. Toutefois, le test de primalité AKS est un algorithme permettant de savoir si un nombre $N$ est premier ou non en temps polynomial. Ainsi, l'intérêt des algorithmes de cribles étudiés en complexité sous-exponentielle (qui sera donnée de manière plus précise plus loin) est certain.
+
+\vspace{0.5cm}
+
+Ce rapport de stage présente le travail que j'ai effectué durant mon stage de L3 au LIP. L'objet d'étude était les algorithmes de crible pour la factorisation d'entier et le calcul de logarithmes discrets. Deux algorithmes ont étés étudiés : le crible quadratique qui est actuellement le meilleur algorithme pour factoriser les nombres de moins de 90 chiffres décimaux (soit 300 bits) et le crible algébrique qui est le plus efficace à partir de 120 chiffres décimaux (soit 400 bits). La recherche de relation est, en analyse de complexité, l'étape la plus longue et la factorisation dans les algorithmes qui ont étés étudiés. Trouver de nouveaux algorithmes efficaces pour réaliser cet étape permettrait donc de factoriser de plus grands nombres.
+
+
+
 \end{abstract}
 
-\section{Context du stage} 
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction} 
 
 \subsection{L'équipe}
 
@@ -124,7 +201,7 @@ Il reste alors à vérifier que $\mathop{pgcd}(u-v,N) \notin \{1,n\}$ (d'après un 
 L'implémentation du crible algébrique a occupé ma 1\ere semaine de stage(puis j'ai effectuée quelques modifications de temps à autres la seconde).
 Ma première implémentation de l'algorithme permettait de factoriser des nombres ayant jusqu'à 30 chiffres en 15 à 20 minutes.
 Ma seconde implémentation permets de factoriser des nombres ayant jusqu'à 40 chiffres ( 132 bits) en environ 10 minutes. La seconde implémentation prends également en compte les large prime variations. C'est à dire, qu'au lieu de ne considérer que des entiers friables, on considérait des entiers n'ayant qu'un facteur premier n'étant pas dans la base de crible. (donc inférieur au carré du plus grand nombre premier de la base, pour ne pas avoir à vérifier la primalité de ce nombre).
-Lorsque l'on lance l'exécution de mon implémentation sur des entrées plus longue, l'exécution s'arrête car un trop grand espace mémoire est utilisé (cela est du au vector des facteurs des nombre).
+Lorsque l'on lance l'exécution de mon implémentation sur des entrées plus longue, l'exécution s'arrête car un trop grand espace mémoire est utilisé (cela est du au tableau des facteurs des nombre).
 
 
 \section{Crible algébrique (Number Field Sieve)}
@@ -303,7 +380,7 @@ L'implémentation de NFS utilisée est SMALL-NFS (écrite par Laurent) à laquelle j
 Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$  gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
 
 
-\subsection{Problème observé}
+\subsubsection{Problème observé}
 
 L'utilisation d'un fonction auxiliaire "two-quadratics" de CADO-NFS \cite{ref8} donne 2 polynômes de degré 2 ayant une racine commune modulo $N$.
 La complexité théorique de l'algorithme dit que, en théorie, peu importe la qualité des polynômes, le nombre de relation trouvés varie peu, et la complexité reste la même.
