@@ -47,7 +47,9 @@
 
 Du 3 Juin 2018 au 13 Juillet 2018, j'ai effectué un stage au sein du LIP (situé à Lyon), dans l'équipe Aric travaillant en cryptographie. Au cours de ce stage, j'ai pu m'intéresser à la factorisation de grands entiers, ce qui a une place très importante en cryptographie.
 Plus largement, ce stage a été l'opportunité pour moi d'être initié à la recherche.
-Au-delà d'enrichir mes connaissances en informatique théorique et de me forger une culture général, ce stage m'a permis de développer mes compétences sous différents aspects : en programmation, en me faisant notamment manipuler un langage qui m'étais encore inconnu et très utile dans le secteur de la recherche en informatique et mathématiques : Sage, qui est une surcouche de Python; et en m'efforçant d'utiliser Bash dans un terminal, git et latex, afin de mieux développer mes capacités avec ces outils informatiques très utiles dans le monde de la recherche.
+
+\subsection{Connaissances Annexes}
+Au-delà d'enrichir mes connaissances en informatique théorique et de me forger une culture général, ce stage m'a permis de développer mes compétences sous différents aspects : en programmation, en me faisant notamment manipuler un langage qui m'étais encore inconnu et très utile dans le secteur de la recherche en informatique et mathématiques : Sage, qui est une surcouche de Python; et en m'efforçant d'utiliser Bash dans un terminal, git et latex, afin de mieux développer mes capacités avec ces outils informatiques très utiles dans le monde de la recherche. De plus, j'ai appris à manipuler ssh, afin de pouvoir exécuter des calculs depuis chez moi sur les machines du LIP.
 
 \subsection{Le monde de la recherche}
 
@@ -115,197 +117,14 @@ Dès lors, si l'on note $B = |P|$,  et qu'on s'intéresse uniquement à la valuatio
 On aura alors : $u^2 = \Pi_{i=1}^{B+1} (u_i^2)^{\nu_i} \equiv v^2 = \Pi_{i=1}^{B+1} (v_i^2)^{\nu_i} [n]$ .
 Il reste alors à vérifier que $\mathop{pgcd}(u-v,N) \notin \{1,n\}$ (d'après un théorème qui est vérifié en pratique mais dont je ne me suis pas plongé dans la preuve, cela est vrai avec une probabilité supérieure à $1/2$ ) 
 
-\subsection{Code Sage}
-
-\lstset{language=python}
 
 
-\begin{lstlisting}
+\subsection{Résultats}
 
-from time import time
-
-N = 13290059
-
-def racine(a, p):
-    """
-    Square root modulo prime number
-    Solve the equation
-        x^2 = a mod p
-    and return list of x solution
-    http://en.wikipedia.org/wiki/Tonelli-Shanks_algorithm
-    this code comes from the following website, but it's noth the most important part of the algorithm, si i just copy pasted it
-    https://codereview.stackexchange.com/questions/43210/tonelli-shanks-algorithm-implementation-of-prime-modular-square-root
-    """
-    a %= p
-
-    # Simple case
-    if a == 0:
-        return [0]
-    if p == 2:
-        return [a]
-    # Simple case
-
-    if p % 4 == 3:
-        x = power_mod(a, (p + 1)//4, p)
-        return [x, p-x]
-
-    # Factor p-1 on the form q * 2^s (with Q odd)
-    q, s = p - 1, 0
-
-    while q % 2 == 0:
-        s += 1
-        q //= 2
-    # Select a z which is a quadratic non resudue modulo p
-    z = 1
-    while power_mod(z, (p-1)//2,p) != p-1:
-        z += 1
-    c = power_mod(z, q, p)
-
-    # Search for a solution
-    x = power_mod(a, (q + 1)//2, p)
-
-    t = power_mod(a, q, p)
-
-    m = s
-    while t != 1:
-        # Find the lowest i such that t^(2^i) = 1
-        i, e = 0, 2
-        for i in xrange(1, m):
-            if power_mod(t, e, p) == 1:
-                break
-            e *= 2
-
-        # Update next value to iterate
-        b = power_mod(c, 2**(m - i - 1), p)
-        x = (x * b) % p
-        t = (t * b * b) % p
-        c = (b * b) % p
-        m = i
-
-    return [x, p-x]
-
-#list of prime numbers
-n = 10**6
-premier = [i for i in range(2,n) if ZZ(i).is_prime()]
-
-#Sieve to compute prime factors of f(x) where f(x) = x**2-N%P for x in [I,J]
-def eratosthene(N,I,J,P):
-    L = [k*k-N for k in range(I,J+1)]
-    factors = [[0 for i in range(len(P))]for k in range(J-I+1)]
-    for k in range(len(P)):
-        p = P[k]
-        ip = I%p
-        R = racine(N,p) #R {x,y} where (x**2-N)%p =0 and (y**2-N)%p=0
-        for j in range(len(R)):
-            rp = R[j]%p
-            if rp >= ip :
-                i = I + (rp - ip)
-            else :
-                i = I + p + (rp - ip)
-            while i<=J:
-                while L[i-I]%p==0:
-                    L[i-I] = L[i-I]/p
-                    factors[i-I][k] +=1
-                i += p
-    L2 = [i+I for i in range(J-I+1) if L[i]<P[-1]**2]
-    cof = [L[i] for i in range(J-I+1) if L[i]<P[-1]**2]
-    Q = [L2[i]*L2[i] - N for i in range(len(L2)) ]
-    factors2 = [factors[i] for i in range(J-I+1) if L[i]<P[-1]**2]
-    i = 0
-    while i< len(cof):
-        if cof[i] !=1:
-            for j in range(i+1,len(cof)):
-                if(cof[j] == cof[i]):
-                    cof.pop(j)
-                    a =L2.pop(j)
-                    cof[i]=1
-                    Q[i] = Q[i]*Q[j]
-                    Q.pop(j)
-
-                    L2[i] *=a
-                    factors2[i] = [factors2[i][k]+factors2[j][k] for k in range(len(P))]
-                    factors2.pop(j)
-                    break
-        i+=1
-    L2 = [L2[i] for i in range(len(cof)) if cof[i]==1]
-    Q = [Q[i] for i in range(len(cof)) if cof[i]==1]
-
-    factors2 = [factors2[i] for i in range(len(cof)) if cof[i]==1]
-    return L2,factors2, Q # L2[i]**2-N is a smooth number and factors[i] is his factorisation
-
-def ker(V):
-    """return a basis of ker V"""
-    A = matrix(V)
-    K = A.kernel().basis_matrix()
-    return  K
-
-def factor_base(N,B):
-    i = 1
-    res = [2]
-    while(premier[i]<B):
-        p = premier[i]
-        a = power_mod(N,(p-1)//2,p)
-        if a==1:
-            res.append(premier[i])
-        i +=1
-    return res
-
-def iterativ(x):
-    r = int(sqrt(x))
-    n = int(log(x))
-    i = 2
-    while i<=min(r,n):
-        if x%i==0 :
-            return i
-        i +=1
-    return -1
-
-def quadratic_sieve(x,B,N):
-    rac = int(x**0.5)
-    V = []
-    Q = []
-    racines = []
-    if(rac**2 == x):
-        return rac
-    P = factor_base(x,B)
-    racines, V, Q = eratosthene(x,rac+1,rac+N,P)
-    print len(V)
-    M = MatrixSpace(GF(2),len(V),len(V[0]))
-    V = M(V)
-    V = ker(V)
-
-    l,c = V.dimensions()
-    print "nombre de vecteur du ker :", l
-    for j in range(l):
-        u = 1
-        v = 1
-        for i in range(c):
-            if V[j][i]==1 :
-                u = u*racines[i]
-                v = v*Q[i]
-                
-        v = int(sqrt(v))
-        if gcd(u-v,x)!=x and gcd(u-v,x)!=1 :
-            return gcd(u-v,x), l
-    return -1, l
-
-def fact(x,B,N):
-    t0 = int(time())
-    if iterativ(x)==-1:
-        res, l = quadratic_sieve(x,B,N)
-        t1 = int(time())
-        print "temps de calcul :", t1-t0, "secondes"
-        return res, l, t1-t0
-    else :
-        return iterativ(x)
-
-\end{lstlisting}
-
-
-
-
-
-
+L'implémentation du crible algébrique a occupé ma 1\ere semaine de stage(puis j'ai effectuée quelques modifications de temps à autres la seconde).
+Ma première implémentation de l'algorithme permettait de factoriser des nombres ayant jusqu'à 30 chiffres en 15 à 20 minutes.
+Ma seconde implémentation permets de factoriser des nombres ayant jusqu'à 40 chiffres ( 132 bits) en environ 10 minutes. La seconde implémentation prends également en compte les large prime variations. C'est à dire, qu'au lieu de ne considérer que des entiers friables, on considérait des entiers n'ayant qu'un facteur premier n'étant pas dans la base de crible. (donc inférieur au carré du plus grand nombre premier de la base, pour ne pas avoir à vérifier la primalité de ce nombre).
+Lorsque l'on lance l'exécution de mon implémentation sur des entrées plus longue, l'exécution s'arrête car un trop grand espace mémoire est utilisé (cela est du au vector des facteurs des nombre).
 
 
 \section{Crible algébrique (Number Field Sieve)}
@@ -472,14 +291,31 @@ C'est une implémentation de NFS permettant d'obtenir des résultats intermédiaire
 
 CADO-NFS permets, en lui donnant en entrée un nombre $N$ que l'on souhaite factoriser, d'obtenir des polynômes ayant une racine commune modulo $N$. Puis, en utilisant ces polynômes en entrée du programmes que j'ai écris, on obtient des relations que l'on peut à nouveau donner à CADO-NFS pour qu'il termine la factorisation.
 
-\subsection{Résultats}
+\subsection{Résultats observés}
+
+\begin{abstract}
+Les résultats de cette parties sont, si ce n'est pas précisés, obtenus sur la factorisation d'un $C_{30}$ (nombre composé de 30 chiffres digitales, donc 99 bits).
+L'implémentation de NFS utilisée est SMALL-NFS (écrite par Laurent) à laquelle j'ai ajouté le crible par maille.
+\end{abstract}
 
 \subsubsection{Conséquences sur les doublons}
 
-Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$ ) gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$  gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
+
+
+\subsection{Problème observé}
+
+L'utilisation d'un fonction auxiliaire "two-quadratics" de CADO-NFS \cite{ref8} donne 2 polynômes de degré 2 ayant une racine commune modulo $N$.
+La complexité théorique de l'algorithme dit que, en théorie, peu importe la qualité des polynômes, le nombre de relation trouvés varie peu, et la complexité reste la même.
+Une première utilisation de two-quadratics a cependant donné des polynomes ayant des coefficients non équilibrés $x^2 + x - 243 192 642 611 455$ et $x^2 - 18x + 2 679 089 722 710 863$ qui ont retournés de très mauvais résultats : moins de 10\% du nombre de relation à trouver pour avoir une chance de factoriser le nombre.
+Ainsi, cet échec a permis de montrer que les complexités théoriques ne sont pas nécessairement vrais en pratique.
 
 \subsubsection{Valeurs numériques}
 
+Une fois le problème des polynômes constaté, grâce à un test sur CADO-NFS qui ne trouvait pas non plus assez de relations, j'ai relancé l'algorithme avec d'autres polynômes, encore générés par "two-quadratics" mais avec des coefficients bien plus équilibrés :  $1 128 515 x^2  - 829 877 x - 34 442 033$ et $-84 478 329 x^2 + 62 122 898x - 11 233 320$
+L'exécution de small-NFS donne 353 829 relations en observant 3297 spécial-Qs, pour une base de facteur pour la factorisation allant jusqu'à $2^8$ et une base de crible pour les spécial-Qs allant jusqu'à $2^15$. Il fallait donc au moins 13 092 relations Le temps de crible était de une heure huit minutes. L'étape la plus longue est toujours l'initialisation des normes qui dure 5 heures, mais qui a été écrite par Laurent, et que je ne peux pas modifier.
+
+Concernant l'utilisation de deux spécial-Qs, lancer l'algorithme sur les mêmes paramètres renvoie moins de relation, en un temps de calcul plus long. ( seulement 82 812 relation pour 30 heures de calculs) en raison du grand nombre de doublons. Ainsi, il semblerait à première vue que l'utilisation de 2 spécial-Qs ne présente pas d'avantage. Cependant, l'avantage d'observer deux spécial-Qs est que l'on observe d'avantage de réseaux. (pour les mêmes paramètres, si l'on observe $n$ réseaux pour un seul sépcial-Q, on en observe dans l'ordre de $n^2$ pour deux spécial-Qs Donc, si l'on compare l'utilisation de 2 spécial-Qs sur des paramètres plus petits avec l'utilisation de small-NFS, on observe :
 
 \section*{Conclusion}
 

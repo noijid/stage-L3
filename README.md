@@ -160,3 +160,17 @@ Lancement de l'algorithme avec 2 spécials-Qs et des polynômes obtenus par CADO
 Avancement du rapport.
 
 Jour 2 : Lancement d'un calcul (qui va surement prendre une vingtaine d'heure), correction du code ( pour ne plus avoir le problème lorsque l'on divise un nombre 2 fois par q). amélioration du rapport.
+
+Jour 3 : Suite à l'état des lieux et remise des clés de mon nouvel appartement, je ne suis arrivé que très tard à mon stage.
+J'ai relancé un calcul (j'avais oublié hier de retirer un assert, donc j'ai perdu une journée de calcul)
+Nombre de relation trop faible, j'en parle à Laurent, il m'explique le problèmes avec les paramètres (et la mauvaise utilisation de avoid)
+
+Jour 4 : J'observe les résultats du calculs, quasiment aucunes relations, j'en relance un avec des paramètres un peu différents. Peu  de changements. On test avec Laurent sur CADO-NFS, il semblerait que le problème vienne des polynomes : CADO-NFS non plus ne trouve pas de relations avec les polynomes que j'ai utilisés.
+On génère de nouveaux polynomes et je relance le calculs avec ces nouveaux
+
+Jour 5 : fin du calcul avec 1 spécial Q : Le nombre de relation est beaucoup plus cohérent. Cela montre l'importance du choix des polynomes bien que la complexité théorique dit que ça ne devrait pas jouer.
+J'attends la fin du calcul avec 2 spécials Qs. (pas fini ce soir, je dois attendre lundi), j'écris dans le rapport mes observations sur les polynomes.
+
+# Semaine 6
+
+Jour 1 : je récupère des résultats, que je mets dans mon rapport, je relance des calculs
