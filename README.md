@@ -174,3 +174,5 @@ J'attends la fin du calcul avec 2 spécials Qs. (pas fini ce soir, je dois atten
 # Semaine 6
 
 Jour 1 : je récupère des résultats, que je mets dans mon rapport, je relance des calculs
+Entretien avec Laurent et Guillaume, analyse des paramètres de mes tests.
+Vu de quelques défauts du rapport.
