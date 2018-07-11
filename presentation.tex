@@ -1,0 +1,90 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{graphicx}
+\usepackage{layout}
+\usepackage{dsfont}
+\usepackage[square,numbers,sort&compress]{natbib}
+\usepackage[francais]{babel}
+%\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{algorithmique}
+
+
+\title{Soutenance stage L3 : Factorisation et calcul de logarithmes discrets : les algorithmes de crible}
+\author{Oijid Nacim}
+\institute{}
+\usetheme{Warsaw}
+\date{Septembre 2019}
+
+%Macros
+\newtheorem{defdef}{Définition}
+\newtheorem{nota}{Notation}
+\newcommand{\p}{\mathbb{P}} 
+\newcommand{\z}{\mathbb{Z}} 
+\newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
+\newcommand{\al}{\alpha} 
+\newcommand{\ere}{\textsuperscript{ère} }
+\newcommand{\er}{\textsuperscript{er} }
+\newcommand{\eme}{\textsuperscript{ème} }
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+
+\begin{document}
+
+\begin{titlepage}
+\vfill
+ \begin{center}
+  \includegraphics[width = 20mm]{ENS_Lyon.png} \hfill
+  \includegraphics[width = 20mm]{cnrs.jpg} \hfill
+  \includegraphics[width = 20mm]{LIP.png}\hfill
+  \includegraphics[width = 20mm]{univ_lyon.jpg} \hfill
+  \includegraphics[width = 20mm]{ucbl.jpg}
+
+\end{center}
+\end{titlepage}
+
+\begin{frame}{Introduction}
+  
+
+  \begin{itemize}
+  
+\item<1,2,3,4> La cryptographie
+
+ \item<2,3,4> RSA
+  
+  \item< 3,4> la place de la factorisation
+
+ \item<4> Les algorithmes naïfs
+
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}{Le crible quadratique}
+  
+\section{Présentation}
+  
+\begin{itemize}
+
+ 
+ \item<1,2,3> Idée : trouver $x$, $y$ tel que $x^2 \equiv y^2 [N]$, on aura alors $kN = (x-y)(x+y)$
+ 
+ \item<2, 3> recherche exaustive des éventuels petits facteurs
+
+ \item<3> cribler pour trouver les grands
+ 
+ 
+  \end{itemize}
+  
+\end{frame}
+
+\end{document}
+
+
+

@@ -1,5 +1,6 @@
 all: 
 	pdflatex rapport.tex
+	pdflatex presentation.tex
 	bibtex rapport
 	pdflatex rapport.tex
 	pdflatex rapport.tex
@@ -7,4 +8,10 @@ all:
 	rm rapport.log
 	rm rapport.aux
 	rm rapport.blg
-	open rapport.pdf
+	rm presentation.out
+	rm presentation.log
+	rm presentation.aux
+	rm presentation.snm
+	rm presentation.toc
+	rm rapport.toc
+	rm presentation.nav
