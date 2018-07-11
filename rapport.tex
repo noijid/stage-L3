@@ -24,6 +24,7 @@
 \newtheorem{nota}{Notation}
 \newcommand{\p}{\mathbb{P}} 
 \newcommand{\z}{\mathbb{Z}} 
+\newcommand{\N}{\mathbb{N}} 
 \newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
 \newcommand{\al}{\alpha} 
 \newcommand{\ere}{\textsuperscript{ère} }
@@ -62,12 +63,12 @@
     % Author and supervisor
     \begin{minipage}{0.4\textwidth}
       \begin{flushleft} \large
-        Nacim \textsc{Oijid}\\
+        \textsc{Nacim Oijid}\\
       \end{flushleft}
     \end{minipage}
     \begin{minipage}{0.4\textwidth}
       \begin{flushright} \large
-        \emph{Tuteur :} M. Laurent \textsc{Grémy}\\
+        \emph{Encadrant :} \textsc{ Guillaume Henrot}\\
       \end{flushright}
     \end{minipage}
 
@@ -84,12 +85,13 @@
   \includegraphics[width = 20mm]{cnrs.jpg} \hfill
   \includegraphics[width = 20mm]{LIP.png}\hfill
   \includegraphics[width = 20mm]{univ_lyon.jpg} \hfill
-  \includegraphics[width = 20mm]{ucbl.jpg}
+  \includegraphics[width = 20mm]{ucbl.jpg}\hfill
+   \includegraphics[width = 40mm]{inria.png}
+
 
 \end{center}
 \end{titlepage}
 
-%\maketitle
 
 
 
@@ -97,11 +99,11 @@
 
 \begin{abstract}
 
-RSA est le système de cryptographie le plus utilisé aujourd'hui. C'est un système de chiffrement asymétrique qui repose sur la difficulté de factorisé un grand nombre (la clé publique produit de 2 nombres premiers (qui constituent la clé privée). Ainsi, la factorisation d'entier, est un problème très compliqué aujourd'hui, trouver un algorithme efficace pour résoudre ce problème renverserai les systèmes de cryptographie.
+RSA est un des système de cryptographie le plus utilisé aujourd'hui. C'est un système de chiffrement asymétrique (c'est à dire, que les clés de chiffrement et de déchiffrement sont différentes) qui repose sur la difficulté de factorisé un grand nombre (la clé publique produit de 2 nombres premiers, qui sert à chiffrer) en ses 2 facteurs (qui constituent la clé privée, et donc servent à déchiffrer). La factorisation d'entier, est donc un problème très important aujourd'hui : trouver un algorithme efficace pour résoudre ce problème renverserai les systèmes de cryptographie.
 
 \vspace{0.5cm}
 
-La complexité du problème de la factorisation d'un grand nombre est encore ouvert aujourd'hui. On sait que ce problème est à la fois dans NP et dans co-NP, mais sa NP-complétude n'a pas été montré. Toutefois, le test de primalité AKS est un algorithme permettant de savoir si un nombre $N$ est premier ou non en temps polynomial. Ainsi, l'intérêt des algorithmes de cribles étudiés en complexité sous-exponentielle (qui sera donnée de manière plus précise plus loin) est certain.
+La complexité du problème de la factorisation d'un grand nombre est encore ouvert aujourd'hui. On sait que ce problème est à la fois dans NP (on peut vérifier qu'un nombre $x$ divise un autre nombre $N$ en temps polynomial) et dans co-NP (on peut vérifier qu'un nombre $x$ ne divise pas un autre nombre $N$ en temps polynomial) , mais il n'existe pas, aujourd'hui, d'algorithme polynomial permettant de déterminer un diviseur de $N$, et sa NP-complétude n'a pas été montré (le problème de décision associée est étant donné deux entiers $N$ et $M$, existe-t-il un diviseur de $N$ inférieur à $M$). Toutefois, le test de primalité AKS est un algorithme permettant de savoir si un nombre $N$ est premier ou non en temps polynomial. L'intérêt des algorithmes de cribles étudiés en complexité sous-exponentielle (qui sera donnée de manière plus précise plus loin) est donc certain, car on n'a pas aujourd'hui d'algorithme de meilleure complexité résolvant le problème.
 
 \vspace{0.5cm}
 
@@ -117,7 +119,7 @@ Ce rapport de stage présente le travail que j'ai effectué durant mon stage de L3
 
 \newpage
 
-\section*{Introduction} 
+\section{Introduction} 
 
 \subsection*{L'équipe}
 
@@ -218,7 +220,7 @@ Ma seconde implémentation permets de factoriser des nombres ayant jusqu'à 40 chi
 Lorsque l'on lance l'exécution de mon implémentation sur des entrées plus longue, l'exécution s'arrête car un trop grand espace mémoire est utilisé (cela est du au tableau des facteurs des nombre).
 
 
-\section{Crible algébrique (Number Field Sieve)}
+\section{Crible algébrique (Number Field Sieve) : \'Etat de l'art}
 
 \subsection{Introduction}
 
@@ -243,9 +245,6 @@ Cet algorithme peut aussi être utilisé pour calculer des logarithmes discrets se
 
 En pratique, l'algorithme de crible quadratique a permis de factoriser de nombreux grands entiers, mais la complexité en $L(1/2)$ l'empêche d'être suffisamment compétitif sur des trop grosses entiers. L'algorithme du crible algébrique quand à lui est plus rapide sur les gros entiers, avec une complexité en $L(1/3)$ (il est plus rapide que le crible quadratique à partir de 90 chiffres) et est le meilleur algorithme de l'informatique classique pour factoriser n'importe quel entier. (de meilleurs algorithmes existent pour des formes d'entier particuliers, et l'algorithme de Shor a une meilleure complexité théorique en informatique quantique).
 
-
-\subsection{Présentation}
-
 \subsubsection{Definitions}
 
 \begin{definition}[Unité]
@@ -256,6 +255,10 @@ Dans $\z[\al]$, muni de la norme multiplicative $N$, on appelle unité tout nombr
 Dans $\z[\al]$, on appelle nombre premier, tout nombre $p$ vérifiant $p = ab => N(a)=1$ ou $N(b)=1$
 \end{definition}
 
+
+\subsection{Détails de l'algorithme}
+
+
 \subsubsection{Choix des polynômes}
 Dans le cas général, on cherche deux polynômes, $f$ et $g$, irréductibles et premiers entre eux dans $\mathbb{Q}[X]$, ayant des coefficients pas trop grands, afin de ne pas avoir des normes trop grandes pour les $a - \al b$ dans $\z[\al_1]$ et $\z[\al_2]$. En effet, plus les normes des nombres seront petites, plus il sera probable qu'ils soient friables, et donc cela permets d'accélérer la recherche de congruences. On choisit donc, en général, un certain entier  $m$, puis on prends pour les coefficients de $f$, ceux de l'écriture de $n$ en base $m$, et on prends $g(x) = x - m$ de sortes que $f$ et $g$ et m comme racine commune modulo $n$. On ne veut pas non plus $f$ de degré trop grand, donc on ne prends pas m trop petit. Selon \cite{ref6}, on fixe $d = 4$ ou $5$ (plus généralement, $d = \log(N)^{1/3}$ est la valeur optimale de l'analyse théorique de la complexité) le degré de $f$ et on prends $m$ proche de $n^{\frac{1}{d+1}}$.
 
@@ -265,33 +268,34 @@ On suppose dans cette partie, les polynômes $f$ et $g$ fixés et on note $m$ leur
 En raison du grand nombre de divisions à tester, on impose d'abord un spécial-Q, c'est à dire, qu'on recherche seulement les paires $(a_i,b_i)$ tel que $a_i-\al b_i$ soit divisible par Q Pour se faire, on divise la base en deux sous partie : "la base de crible" noté $ffb$ (free factor base), et la "grande variation en nombre premier" entre $fbb$ (factor base band) et $B$. On impose alors d'être divisible par un spécial-Q entre $fbb$ et $B$, puis que les $(a_i - \al b_i)/Q$ soit ffb-friable.
 Cela nous fait perdre certaines relation, mais accélère énormément le calcul.
 
-\subsubsection{Le crible linéaire}
+\subsubsection{La recherche de relation}
+
+
 On cherche alors à factoriser que des entiers déjà un peu plus petit (de la taille plus petit de $\log(Q)$ ). On peut alors cribler de façon linéaire : en parcourant toutes les valeurs de $b$ pour chaque valeur de $a$ et donc, on peut même effectuer ce calcul en calcul parallèle (en distribuant les calculs selon les différents spécial-Qs). On gagne ainsi un peu de temps de calcul . En pratique, cette étape s'effectue en calcul distribué mais en utilisant des algorithmes de cribles plus efficaces que celui linéaire, ce qui sera développé dans la sous-partie suivante : l'algorithme de Franke-Kleinjung.
 En pratique, on recherche au moins $ \#(FB_1) + \#(FB_2) + 1 $ relations pour être sur d'avoir une décomposition en carré.
 
-\subsubsection{Le crible par maille}
+\vspace{0.5cm}
 
 Le crible linéaire, bien qu'intuitif (car proche de celui d'Eratosthène), a le défaut de devoir explorer chaque valeur de b, et est donc efficace seulement sur les réseaux denses. En effet, pour certains idéaux (quand $p$, le facteur recherché est proche de $I$ la longueur de l'intervalle de recherche sur $a$), le réseau est beaucoup moins dense, et il est possible que seulement quelques entiers soient divisible par $p$ (un nombre beaucoup plus petit que b). L'algorithme de Franke-Kleinjung propose alors une solution, en trouvant une base de 2 vecteurs, $u$ et $v$ tel que, pour passer d'un point au suivant (en triant les points par ordonnée), il suffit d'ajouter $u$, $v$, ou $u+v$ au premier. (cet algorithme permettant de trouver $u$ et $v$ fait appel à des résultats d'algèbre de $(\z)^n$ et de calcul de pgcd mais n'a pas été étudié au cours de ce stage, l'idée principale étant que pour monter d'une unité en ordonnée on se décale toujours de la même distance en abscisse et donc qu'il faut toujours compter le même nombre de vecteurs et que cette régularité peut s'exprimer avec 2 vecteurs). 
-Dès lors, le crible devient beaucoup  plus efficace, puisqu'il suffit de trouver un point (en général 0), puis la complexité pour trouver tous les autres devient linéaire en le nombre de point à trouver et non en la taille de l'intervalle de recherche. On en déduit donc que, si le réseau est dense, le crible linéaire est aussi efficace que le crible par maille, mais sans nécessité de précalcul (des vecteurs $u$ et $v$ ci-dessus), mais que moins le réseau est dense, plus ce crible est efficace.
+Dès lors, le crible devient beaucoup  plus efficace, puisqu'il suffit de trouver un point (en général 0), puis la complexité pour trouver tous les autres devient linéaire en le nombre de point à trouver et non en la taille de l'intervalle de recherche. On en déduit donc que, si le réseau est dense, le crible linéaire est aussi efficace que le crible en réseau, mais sans nécessité de précalcul (des vecteurs $u$ et $v$ ci-dessus), mais que moins le réseau est dense, plus ce crible est efficace.
 
 \vspace{0.5cm}
 
-Résultat observé. J'ai lancé la 1\ere version de small NFS fourni par Laurent, en utilisant soit seulement le crible linéaire, soit le crible linéaire sur les petits nombre premiers, et le crible par maille sur les gros nombre premiers (ceux dépassant la taille de l'intervalle de recherche). On ne gagne presque pas de temps. une analyse du code, et des résultats retournés montre que cela est dû à un réseau trop dense même pour les plus grosses valeurs des nombres premiers $p$ considérés. De plus, une analyse plus poussé nous montre que lors de la recherche de relations, les étapes les plus longues étaient les temps d'initialisation des normes et de calculs des cofacteurs (car l'algorithme fournit par Laurent observé si les nombres étaient friables sans retenir les facteurs trouvés).
+Résultat observé. J'ai lancé la 1\ere version de small NFS fourni par Laurent, en utilisant soit seulement le crible linéaire, soit le crible linéaire sur les petits nombre premiers, et le crible en réseau sur les gros nombre premiers (ceux dépassant la taille de l'intervalle de recherche). On ne gagne presque pas de temps. une analyse du code, et des résultats retournés montre que cela est dû à un réseau trop dense même pour les plus grosses valeurs des nombres premiers $p$ considérés. De plus, une analyse plus poussé nous montre que lors de la recherche de relations, les étapes les plus longues étaient les temps d'initialisation des normes et de calculs des cofacteurs (car l'algorithme fournit par Laurent observé si les nombres étaient friables sans retenir les facteurs trouvés).
+
+\subsubsection{Cofactorisation}
+Cette étape n'est pas obligatoire, et peut être réalisé en même temps que le crible. Toutefois, ce n'est pas le cas dans l'implémentation de Small-NFS, qui est celle dont je suis parti. Donc elle existe dans mon algorithme. L'étape de crible se contentant de retrouver les entiers friables, cette étape sert à calculer leurs décomposition et à générer les relations pour l'algèbre linéaire.
 
 \subsubsection{Algèbre linéaire}
 On utilise alors un la même procédure que dans le crible quadratique, en utilisant les formes factorisées des nombre précédents pour obtenir une congruence de carrés.  Pour ce faire, on décompose les valeurs de $a_i-\al b_i$ en facteur premier dans $\z[\al_1]$ et $\z[\al_2]$. On s'intéresse aux exposants modulo $2$ des facteurs premiers apparaissant dans les décompositions. Et, à l'aide d'outils offerts par Sage, on calcul le noyau de la matrice composé de ces exposants pour trouvé une combinaison de $a_i- \al b_i$qui est à la fois un carré pour $i = 1$ et pour $i = 2$.
 
-\subsubsection{Cofactorisation}
-Cette étape n'est pas obligatoire, et peut être réalisé en même temps que le crible. Toutefois, ce n'est pas le cas dans l'implémentation de Small-NFS, qui est celle dont je suis parti. Donc elle existe dans mon algorithme.
-
-\subsubsection{Factorisation}
 Une fois qu'on a obtenu le noyau de la matrice, on injecte $\z[\al_1]$ et $\z[\al_2]$, dans $\z/N\z$ avec $\al_i -> m$. La congruence est alors conservée car m est racine commune de $f$ et $g$. L'algèbre linéaire nous dit alors que les 2 factorisations obtenus dans les 2 anneaux respectifs sont bien congru l'un à l'autre modulo N, et on obtient alors une relation de la forme $u^2 \equiv v^2 [N]$, ce qui donne une factorisation de N avec une probabilité supérieure à 1/2 (encore une fois, ce résultat n'a pas été étudié).
 
-\subsubsection{Utilisation habituelle de NFS}
-En règle général, le crible algébrique est utilisé avec l'un des deux polynômes (disons $g$) de degré 1. En particulier, on prend souvent $g(x) = x- m$. Dès lors, on qualifie d'algébrique la partie de l'algorithme portant sur $f$ et de rationnelle celle portant sur $g$ (car $\z[\al_2] = \z$). Le spécial-Q est alors imposé que dans la partie algébrique de NFS (car c'est la partie la plus dur à factoriser).
+\subsection{Utilisation habituelle de NFS}
+En règle général, le crible algébrique est utilisé avec l'un des deux polynômes (disons $g$) de degré 1. En particulier, on prend souvent $g(x) = x- m$ pour un certain $m$. Dès lors, on qualifie d'algébrique la partie de l'algorithme portant sur $f$ et de rationnelle celle portant sur $g$ (car $\z[\al_2] = \z$). Le spécial-Q est alors imposé que dans la partie algébrique de NFS (car c'est la partie la plus dur à factoriser).
 
 
-\section{ NFS multi-special-Qs: objet principal de mon stage}
+\section{ NFS multi-special-Qs: une amélioration potentielle de NFS}
 
 \abstract
 L'objectif principal de mon stage était de partir de l'implémentation de Laurent de NFS :  Small NFS (idée qu'il a développé dans sa thèse), et d'essayer au lieu d'imposer un spécial-Q d'un seul côté, d'en imposer un de chaque côté.
@@ -395,7 +399,7 @@ CADO-NFS permets, en lui donnant en entrée un nombre $N$ que l'on souhaite facto
 
 \begin{abstract}
 Les résultats de cette parties sont, si ce n'est pas précisés, obtenus sur la factorisation d'un $C_{30}$ (nombre composé de 30 chiffres digitales, donc 99 bits).
-L'implémentation de NFS utilisée est SMALL-NFS (écrite par Laurent) à laquelle j'ai ajouté le crible par maille.
+L'implémentation de NFS utilisée est SMALL-NFS (écrite par Laurent) à laquelle j'ai ajouté le crible en réseau.
 \end{abstract}
 
 \subsubsection{Conséquences sur les doublons}
@@ -403,23 +407,45 @@ L'implémentation de NFS utilisée est SMALL-NFS (écrite par Laurent) à laquelle j
 Le principal désavantage d'imposer 2 spécial-Qs, est l'augmentation du nombre de doublons. En effet, les doublons générés par un seul special-Q sont maintenus quand on en mets. Mais, de plus, le fait d'observer 2 spécial-Qs peut créer des doublons. On traite le cas ou un des 2 côté est rationnel, les autres cas étant plus compliqué mais laissant le même phénomène se produire. Si $p_1,p_2 \in $ $ \p $ tel qu'il existe des spécials Q à la fois de norme $p_1$ et $p_2$ des 2 côtés, considérons 4 spécial-Qs $(p_1, r_{1, 1})$ et $(p_2, r_{1, 2})$  gauche et $(p_1, r{2, 1})$ et $(p_2, r_{2, 2})$ à droite. La probabilité que le réseau formé par $(p_1, r_{1, 1})$ et $(p_2, r_{2, 2})$ soit le même que celui formé par  $(p_2, r_{1, 2})$ et $(p_1, r{2, 1})$ est alors plus grande que la probabilité que $r_{1, 1}=r_{2, 1}$ et $r_{1,2} = r{2,2}$. En admettant que les racines des polynomes considérés soient équirépartis, cette probabilité est alors plus grande que $ \frac{1}{p_1p_2}$. On crée donc en moyenne $ \Sigma \frac{1}{p_ip_j} $ qui est une somme divergente (équivalente à $\ln(\ln(B_1)) \ln\ln(B_2)$ 
 
 
-\subsubsection{Problème observé}
+\subsubsection{Problèmes observés}
 
 L'utilisation d'un fonction auxiliaire "two-quadratics" de CADO-NFS \cite{ref8} donne 2 polynômes de degré 2 ayant une racine commune modulo $N$.
 La complexité théorique de l'algorithme dit que, en théorie, peu importe la qualité des polynômes, le nombre de relation trouvés varie peu, et la complexité reste la même.
-Une première utilisation de two-quadratics a cependant donné des polynomes ayant des coefficients non équilibrés $x^2 + x - 243 192 642 611 455$ et $x^2 - 18x + 2 679 089 722 710 863$ qui ont retournés de très mauvais résultats : moins de 10\% du nombre de relation à trouver pour avoir une chance de factoriser le nombre.
+Une première utilisation de two-quadratics a cependant donné des polynômes ayant des coefficients non équilibrés $x^2 + x - 243 192 642 611 455$ et $x^2 - 18x + 2 679 089 722 710 863$ qui ont retournés de très mauvais résultats : moins de 10\% du nombre de relation à trouver pour avoir une chance de factoriser le nombre.
 Ainsi, cet échec a permis de montrer que les complexités théoriques ne sont pas nécessairement vrais en pratique.
 
-\subsubsection{Valeurs numériques}
+\vspace{0.5cm}
 
-Une fois le problème des polynômes constaté, grâce à un test sur CADO-NFS qui ne trouvait pas non plus assez de relations, j'ai relancé l'algorithme avec d'autres polynômes, encore générés par "two-quadratics" mais avec des coefficients bien plus équilibrés :  $1 128 515 x^2  - 829 877 x - 34 442 033$ et $-84 478 329 x^2 + 62 122 898x - 11 233 320$
+L'autre problème est le choix cohérent des valeurs de $qrange$ : l'espace de recherche des spécial-Qs. En effet, les valeurs optimales pour un spécial-Q ne peuvent pas être bêtement copiés de chaque côté, sinon l'on obtient un un carrée dans la complexité de la recherche de relation, ce qui supprime tout gain possible que l'on avait à imposer 2 spécial-Qs.
+
+\subsubsection{Premières expériences}
+
+Une fois le problème des polynômes constaté (qui ne génèrent pas assez de solution), grâce à un test sur CADO-NFS qui ne trouvait pas non plus assez de relations, j'ai relancé l'algorithme avec d'autres polynômes, encore générés par "two-quadratics" mais avec des coefficients bien plus équilibrés :  $1 128 515 x^2  - 829 877 x - 34 442 033$ et $-84 478 329 x^2 + 62 122 898x - 11 233 320$
 L'exécution de small-NFS donne 353 829 relations en observant 3297 spécial-Qs, pour une base de facteur pour la factorisation allant jusqu'à $2^8$ et une base de crible pour les spécial-Qs allant jusqu'à $2^15$. Il fallait donc au moins 13 092 relations Le temps de crible était de une heure huit minutes. L'étape la plus longue est toujours l'initialisation des normes qui dure 5 heures, mais qui a été écrite par Laurent, et que je ne peux pas modifier.
+
+\vspace{0.5cm}
 
 Concernant l'utilisation de deux spécial-Qs, lancer l'algorithme sur les mêmes paramètres renvoie moins de relation, en un temps de calcul plus long. ( seulement 82 812 relation pour 30 heures de calculs) en raison du grand nombre de doublons, et du fait que considérer l'intersection de 2 spécial-Qs de taille $n$ revient à observer un réseau généré par $n^2$ donc beaucoup moins dense. Ainsi, il semblerait à première vue que l'utilisation de 2 spécial-Qs ne présente pas d'avantage. Cependant, l'avantage d'observer deux spécial-Qs est que l'on observe d'avantage de réseaux. (pour les mêmes paramètres, si l'on observe $n$ réseaux pour un seul sépcial-Q, on en observe dans l'ordre de $n^2$ pour deux spécial-Qs Donc, si l'on compare l'utilisation de 2 spécial-Qs sur des paramètres plus petits avec l'utilisation de small-NFS, on observe qu'en un temps de calcul plus court, on obtient d'avantage de relations. Le problème revient donc à chercher les paramètres optimaux, avec 2 spécial-Qs pour obtenir un nombre suffisant de relation en un temps assez court.
 
+\subsubsection{choix de meilleurs paramètres}
+
+Les choix des bases de facteurs et de l'espace à cribler (l'ensemble des $a - bx$) ne dépendent pas du fait d'utiliser un spécial-Q ou 2. Le seul paramètre qui est vraiment différent est la sélection des spécial-Qs. En effet, si l'on place les spécial-Qs que l'on avait lorsqu'ils n'étaient imposer que d'un seul côté des deux, les réseaux qu'ils génèreront seront trop peu denses, et on ne retireras pas assez de relations. 
+
+\vspace{0.5cm}
+
+La première idée qui m'est alors venue est de changer les $qrange = [q_1, q_2]$ (ensemble on se déplace les spécial-Qs) en leurs racines $qrange_1 = qrange_2 = [\sqrt{q_1},\sqrt{q_2}]$, mais cela change beaucoup la répartition des réseaux observés : la répartition des produits $pq$ avec $p$ et $q$ premiers, $p \in qrange_1$, $q \in qrange_2$ se concentrant naturellement autour de $\sqrt{q_1q_2}$. Ainsi, on voit peu de "gros" réseaux, qui sont ceux qui diminuent le plus la norme et qui sont le moins dense. On perds donc un avantage sur un unique spécial-Q. 
+Ce qui est important, n'était pas le nombre de réseaux observés, mais le nombre de points criblés, il semblait pertinent de faire varier $qrange_2$ en fonction des valeurs de $q_1\in qrange_1$.
+
+\vspace{0.5cm}
+
+Dès lors, plusieurs possibilités existent. Celle que j'ai décidé d'implémenter, qui me semblait la plus pertinente est de cherche à cribler un nombre homogène de réseaux autour de chaque valeur $q_1q_2$. C'est pourquoi, à $q_1 \in qrange_1$ fixé, j'ai décidé de faire fixer $qrange_2(q_1) = [q_1/\log(q_1) , q_1\log(q_1)]$. En effet, la densité des nombres premiers dans $\N$ étant logarithmique (le n\eme nombre premier valant environ $n\log(n)$), cela permets de choisir environ le même nombre de spécial-Qs pour chaque valeur de $q_1$. 
+
+On obtient alors (pour un $C_30$) le nombre requis de relations en seulement 6 minutes de recherche de relation, en sachant que l'implémentation est surement améliorable. ( mais l'algorithme prends toujours une heure à s'exécuter à cause du temps d'initialisation des normes)
+
+
 \newpage
 
-\section*{Conclusion}
+\section{Conclusion}
 
 Pendant le déroulement de mon stage, j'ai eu la chance de travailler avec une équipe de recherche, ce qui m'a permis de voir différents domaines des sciences en recherche. Le fait de parler à d'autres stagiaires, dans d'autres départements pour certains, m'a permis d'avoir une vision globale de beaucoup de sujets de recherche. Le fait d'avoir travaillé avec mon équipe de recherche m'a souvent permis d'avancer et de ne pas rester bloqué sur des problèmes que d'autres ont déjà observé et résolu.
 

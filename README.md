@@ -178,3 +178,6 @@ Entretien avec Laurent et Guillaume, analyse des paramètres de mes tests.
 Vu de quelques défauts du rapport.
 
 Jour 2 : travail sur le rapport.
+
+Jour 3 : Suite du travail sur le rapport, début de travail sur le beamer.
+On continue les calculs en fond, on trouve plein de résultats intéressants... (les 1ers résultats n'étaient pas très prometteurs, les nouveaux le sont bien plus)
