@@ -1,6 +1,6 @@
 \documentclass{beamer}
 
-\usepackage[utf8]{inputenc}
+\usepackage[latin1]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
@@ -23,22 +23,21 @@
 \date{Septembre 2019}
 
 %Macros
-\newtheorem{defdef}{DÃ©finition}
+\newtheorem{defdef}{Définition}
 \newtheorem{nota}{Notation}
 \newcommand{\p}{\mathbb{P}} 
 \newcommand{\z}{\mathbb{Z}} 
 \newcommand{\ztz}{$\mathbb{Z}/2\mathbb{Z}$} 
 \newcommand{\al}{\alpha} 
-\newcommand{\ere}{\textsuperscript{Ã¨re} }
+\newcommand{\ere}{\textsuperscript{ère} }
 \newcommand{\er}{\textsuperscript{er} }
-\newcommand{\eme}{\textsuperscript{Ã¨me} }
+\newcommand{\eme}{\textsuperscript{ème} }
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 
 \begin{document}
 
 \begin{titlepage}
-\vfill
  \begin{center}
   \includegraphics[width = 20mm]{ENS_Lyon.png} \hfill
   \includegraphics[width = 20mm]{cnrs.jpg} \hfill
@@ -48,6 +47,8 @@
 
 \end{center}
 \end{titlepage}
+
+\section{Introduction}
 
 \begin{frame}{Introduction}
   
@@ -60,29 +61,112 @@
   
   \item< 3,4> la place de la factorisation
 
- \item<4> Les algorithmes naÃ¯fs
+ \item<4> Les algorithmes naïfs
 
   \end{itemize}
   
 \end{frame}
 
-\begin{frame}{Le crible quadratique}
-  
-\section{PrÃ©sentation}
-  
+\section{Le crible quadratique}
+
+\subsection{Présentation de l'algorithme}
+\begin{frame}{Présentation de l'algorithme}
+    
 \begin{itemize}
 
  
- \item<1,2,3> IdÃ©e : trouver $x$, $y$ tel que $x^2 \equiv y^2 [N]$, on aura alors $kN = (x-y)(x+y)$
+ \item<1, 2, 3> recherche exaustive des éventuels petits facteurs
+  
+ \item<2, 3> Idée : trouver $x$, $y$ tel que $x^2 \equiv y^2 [N]$, on aura alors $kN = (x-y)(x+y)$
  
- \item<2, 3> recherche exaustive des Ã©ventuels petits facteurs
 
- \item<3> cribler pour trouver les grands
+ \item<3> Décomposer en facteurs premiers les $x^2 - N$
+ 
+ \item<3> Chercher une relation de dépendance linéaire
  
  
   \end{itemize}
   
 \end{frame}
+
+\subsection{Exemple}
+\begin{frame}{Exemple}
+    
+\begin{itemize}
+
+ 
+ \item<1, 2, 3> $N =$ 
+  
+ \item<2, 3> $ ^2 - N = $
+ \item<2, 3> $ ^2 - N = $
+ \item<2, 3> $ ^2 - N = $
+
+
+ \item<3> Ce qui donne $ \equiv [N]$ donc $N = $  
+ \end{itemize}
+ \end{frame}
+ 
+ \section{Le crible algébrique}
+
+\subsection{Lien avec le crible quadratique}
+\begin{frame}{Lien avec le crible quadratique}
+    
+    
+\begin{figure}
+  \caption{Fonctionnement crible algébrique.}
+  \centering
+  \includegraphics[width = 5 cm]{NFS1.png}
+\end{figure}
+
+
+\end{frame}
+
+\subsection{Présentation de l'algorithme}
+\begin{frame}{Présentation de l'algorithme}
+    
+\begin{itemize}
+
+ 
+ \item<1, 2, 3, 4, 5> Sélection polynomiale
+  \item <2, 3, 4, 5> Spécial-Qs
+ \item<3, 4, 5> Crible
+ \item<4, 5> Cofactorisation
+ \item<5> Algèbre linéaire
+
+ 
+  \end{itemize}
+  
+\end{frame}
+
+ \section{Crible algébrique : multi-spécial-Qs}
+
+\subsection{La modification}
+\begin{frame}{La modification}
+
+\begin{itemize}
+\item Un spécial-Q de chaque côté au lieu d'un seul.
+\end{itemize}
+
+\end{frame}
+
+\subsection{Résultats}
+\begin{frame}{Résultats}
+    
+\begin{itemize}
+
+ 
+\item  
+\end{itemize}
+  
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}{Conclusion}
+\center
+Merci de votre attention !
+\end{frame}
+
 
 \end{document}
 
